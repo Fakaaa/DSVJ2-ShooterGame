@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class Gun : MonoBehaviour
 {
     [SerializeField] private ParticleSystem prefabBulletImpact;
+    [SerializeField] private ParticleSystem muzzleFlash;
     [SerializeField] private Text ammo;
     [SerializeField] public Camera viewPlayer;
     [SerializeField] private float maxRange;
@@ -46,10 +47,21 @@ public class Gun : MonoBehaviour
             {
                 if(!revolverShoot.isPlaying)
                     revolverShoot.Play();
+                
+                muzzleFlash.Play();
+
                 RaycastHit myHit; 
+                
                 if(Physics.Raycast(myRayDestiny.origin, myRayDestiny.direction * maxRange, out myHit))
                 {
                     Instantiate(prefabBulletImpact, myHit.point, Quaternion.LookRotation(myHit.normal));
+                    
+                    if(myHit.collider.tag == "Enemy")
+                    {
+                        myHit.rigidbody.AddExplosionForce(20, transform.position, 15, 4, ForceMode.Impulse);
+                        myHit.collider.gameObject.GetComponent<Enemy>().CreateExplosion();
+                    }
+
                     actualMagazine--;
                 }
             }
