@@ -9,12 +9,14 @@ public class Box : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        takeBox.Play();
-        if (other.gameObject.tag == "Player")
+        if (other.gameObject.tag != "Terrain")
         {
+            takeBox.Play();
+            
             if (FindObjectOfType<Player>() != null)
                 FindObjectOfType<Player>().SetPoints(200);
+            
+            Destroy(gameObject);
         }
-        Destroy(gameObject);
     }
 }
