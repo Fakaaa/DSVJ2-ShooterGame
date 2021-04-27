@@ -313,45 +313,18 @@ MonoBehaviour:
     type: 3}
   explosiveBlow: 0
   timeToBanish: 1
---- !u!20 &1685762379 stripped
-Camera:
-  m_CorrespondingSourceObject: {fileID: 8917135022316129065, guid: 443bcb1803b31fc4e9ba45238fd4e262,
-    type: 3}
-  m_PrefabInstance: {fileID: 8917135021842872930}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &4201775375933870368 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4724191896130693954, guid: 443bcb1803b31fc4e9ba45238fd4e262,
-    type: 3}
-  m_PrefabInstance: {fileID: 8917135021842872930}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &4201775375933870369
+--- !u!114 &973589398 stripped
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 3483903611448846275, guid: 443bcb1803b31fc4e9ba45238fd4e262,
+    type: 3}
+  m_PrefabInstance: {fileID: 8917135021842872930}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4201775375933870368}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 131f34e694650cb488c8c8cd60a741cc, type: 3}
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletsShooted: []
-  gunPosition: {fileID: 4204788569480204968}
-  prefabBullet: {fileID: 1049725230937958649, guid: be7bc026ec601034ca3ee626498e90b6,
-    type: 3}
-  viewPlayer: {fileID: 1685762379}
-  maxRange: 10
-  clipSize: 6
-  actualMagazine: 6
-  maxAmmoToCarry: 100
---- !u!4 &4204788569480204968 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4727213782317541578, guid: 443bcb1803b31fc4e9ba45238fd4e262,
-    type: 3}
-  m_PrefabInstance: {fileID: 8917135021842872930}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4386459508207211019
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -428,6 +401,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1934966154235438124, guid: 443bcb1803b31fc4e9ba45238fd4e262,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 2.29
+      objectReference: {fileID: 0}
+    - target: {fileID: 1934966154235438124, guid: 443bcb1803b31fc4e9ba45238fd4e262,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -2.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 8157623232962229645, guid: 443bcb1803b31fc4e9ba45238fd4e262,
+        type: 3}
+      propertyPath: crossAir
+      value: 
+      objectReference: {fileID: 973589398}
+    - target: {fileID: 8445459617285983995, guid: 443bcb1803b31fc4e9ba45238fd4e262,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8917135022314883337, guid: 443bcb1803b31fc4e9ba45238fd4e262,
         type: 3}
       propertyPath: m_TagString
