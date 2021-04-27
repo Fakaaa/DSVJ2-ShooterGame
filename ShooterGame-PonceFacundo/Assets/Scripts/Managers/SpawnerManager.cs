@@ -5,10 +5,12 @@ using UnityEngine;
 public class SpawnerManager : MonoBehaviour
 {
     [SerializeField] public Enemy prefabEnemy;
-    [SerializeField] public int amountEnemyPerSpawn;
+    [SerializeField] public Box prefabBoxes;
 
-    [SerializeField] public float timeForRespawnN;
-    private float timer;
+    [SerializeField] public float timeForRespawnEnemies;
+    [SerializeField] public float timeForRespawnBoxes;
+    private float timerEnemys;
+    private float timerBoxes;
 
     [SerializeField] public float maxDistanceX;
     [SerializeField] public float minDistanceX;
@@ -21,23 +23,30 @@ public class SpawnerManager : MonoBehaviour
     [SerializeField] private bool deactivateSpawn;
     void Start()
     {
-        timer = 0;
+        timerEnemys = 0;
+        timerBoxes = 0;
         respawnSound = gameObject.GetComponent<AudioSource>();
     }
     void Update()
     {
         if(!deactivateSpawn)
         {
-            if(timer <= timeForRespawnN)
-                timer += Time.deltaTime;
-            else
-            {
-                timer = 0;
-                if(!respawnSound.isPlaying)
-                    respawnSound.Play();
-                randomPosition = new Vector3(Random.Range(minDistanceX,maxDistanceX), 0 , Random.Range(minDistanceZ, maxDistanceZ));
-                Instantiate(prefabEnemy, randomPosition, Quaternion.identity);
-            }
+            timerEnemys += Time.deltaTime;
+            timerBoxes += Time.deltaTime;
+
+            RespawnSomething(prefabEnemy.gameObject, ref timerEnemys, timeForRespawnEnemies);
+            RespawnSomething(prefabBoxes.gameObject, ref timerBoxes, timeForRespawnBoxes);
+        }
+    }
+    public void RespawnSomething(GameObject objectToSpawn, ref float actualTime, float timeToSpawn )
+    {
+        if (actualTime >= timeToSpawn)   
+        {
+            actualTime = 0;
+            if (!respawnSound.isPlaying)
+                respawnSound.Play();
+            randomPosition = new Vector3(Random.Range(minDistanceX, maxDistanceX), 0, Random.Range(minDistanceZ, maxDistanceZ));
+            Instantiate(objectToSpawn, randomPosition, Quaternion.identity);
         }
     }
 }

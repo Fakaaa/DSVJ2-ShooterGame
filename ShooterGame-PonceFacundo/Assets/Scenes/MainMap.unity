@@ -683,8 +683,24 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3433072437732519950, guid: 9e114947fdc9ed54bb7c2e174bf8df88,
         type: 3}
+      propertyPath: prefabBoxes
+      value: 
+      objectReference: {fileID: 4208571701128295198, guid: 3f1e6cb1e9c554249a2e2a7e3a586e33,
+        type: 3}
+    - target: {fileID: 3433072437732519950, guid: 9e114947fdc9ed54bb7c2e174bf8df88,
+        type: 3}
       propertyPath: timeForRespawnN
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3433072437732519950, guid: 9e114947fdc9ed54bb7c2e174bf8df88,
+        type: 3}
+      propertyPath: timeForRespawnBoxes
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 3433072437732519950, guid: 9e114947fdc9ed54bb7c2e174bf8df88,
+        type: 3}
+      propertyPath: timeForRespawnEnemies
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 9147578930753449537, guid: 9e114947fdc9ed54bb7c2e174bf8df88,
         type: 3}
