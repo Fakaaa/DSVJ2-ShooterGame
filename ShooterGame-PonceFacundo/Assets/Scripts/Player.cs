@@ -6,11 +6,12 @@ using System;
 
 public class Player : MonoBehaviour
 {
-    public float hp;
+    [SerializeField] public float hp;
     public static int points;
     public static Action playerDead;
 
     [SerializeField] public Text pointsText;
+    [SerializeField] public Text hpText;
 
     public void Start()
     {
@@ -39,6 +40,12 @@ public class Player : MonoBehaviour
     }
     private void Update()
     {
+        ShowPlayerUI();
+    }
+
+    public void ShowPlayerUI()
+    {
         pointsText.text = "Points: " + points;
+        hpText.text = "HP:" + hp;
     }
 }

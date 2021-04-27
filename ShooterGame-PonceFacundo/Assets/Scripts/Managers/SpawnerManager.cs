@@ -44,7 +44,7 @@ public class SpawnerManager : MonoBehaviour
         {
             actualTime = 0;
             respawnSound.Play();
-            randomPosition = new Vector3(Random.Range(minDistanceX, maxDistanceX), objectToSpawn.transform.position.y, Random.Range(minDistanceZ, maxDistanceZ));
+            randomPosition = new Vector3(Random.Range(minDistanceX, maxDistanceX), 6, Random.Range(minDistanceZ, maxDistanceZ));
             Instantiate(objectToSpawn, randomPosition, Quaternion.identity);
         }
     }

@@ -213,7 +213,7 @@ PrefabInstance:
         type: 3}
       propertyPath: reload
       value: 
-      objectReference: {fileID: 2068972219}
+      objectReference: {fileID: 0}
     - target: {fileID: 8157623232962229645, guid: 443bcb1803b31fc4e9ba45238fd4e262,
         type: 3}
       propertyPath: crossAir
@@ -223,7 +223,7 @@ PrefabInstance:
         type: 3}
       propertyPath: revolverShoot
       value: 
-      objectReference: {fileID: 2068972220}
+      objectReference: {fileID: 0}
     - target: {fileID: 8378712324704590221, guid: 443bcb1803b31fc4e9ba45238fd4e262,
         type: 3}
       propertyPath: pointsText
@@ -517,7 +517,7 @@ Terrain:
   m_TreeBillboardDistance: 50
   m_TreeCrossFadeLength: 5
   m_TreeMaximumFullLODCount: 50
-  m_DetailObjectDistance: 80
+  m_DetailObjectDistance: 54
   m_DetailObjectDensity: 1
   m_HeightmapPixelError: 5
   m_SplatMapDistance: 1000
@@ -690,18 +690,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 230cdd2f6a5437147974503f6efceb73, type: 3}
---- !u!82 &2068972219 stripped
-AudioSource:
-  m_CorrespondingSourceObject: {fileID: 4502183748197207155, guid: 443bcb1803b31fc4e9ba45238fd4e262,
-    type: 3}
-  m_PrefabInstance: {fileID: 19922737}
-  m_PrefabAsset: {fileID: 0}
---- !u!82 &2068972220 stripped
-AudioSource:
-  m_CorrespondingSourceObject: {fileID: 6210843100932402785, guid: 443bcb1803b31fc4e9ba45238fd4e262,
-    type: 3}
-  m_PrefabInstance: {fileID: 19922737}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2081646139
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -717,18 +705,38 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 3433072437732519950, guid: 9e114947fdc9ed54bb7c2e174bf8df88,
         type: 3}
+      propertyPath: maxDistanceX
+      value: 141
+      objectReference: {fileID: 0}
+    - target: {fileID: 3433072437732519950, guid: 9e114947fdc9ed54bb7c2e174bf8df88,
+        type: 3}
+      propertyPath: maxDistanceZ
+      value: 88
+      objectReference: {fileID: 0}
+    - target: {fileID: 3433072437732519950, guid: 9e114947fdc9ed54bb7c2e174bf8df88,
+        type: 3}
+      propertyPath: minDistanceX
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 3433072437732519950, guid: 9e114947fdc9ed54bb7c2e174bf8df88,
+        type: 3}
+      propertyPath: minDistanceZ
+      value: 21
+      objectReference: {fileID: 0}
+    - target: {fileID: 3433072437732519950, guid: 9e114947fdc9ed54bb7c2e174bf8df88,
+        type: 3}
       propertyPath: timeForRespawnN
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3433072437732519950, guid: 9e114947fdc9ed54bb7c2e174bf8df88,
         type: 3}
       propertyPath: timeForRespawnBoxes
-      value: 7
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 3433072437732519950, guid: 9e114947fdc9ed54bb7c2e174bf8df88,
         type: 3}
       propertyPath: timeForRespawnEnemies
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 9147578930753449537, guid: 9e114947fdc9ed54bb7c2e174bf8df88,
         type: 3}
@@ -738,7 +746,7 @@ PrefabInstance:
     - target: {fileID: 9147578930753449537, guid: 9e114947fdc9ed54bb7c2e174bf8df88,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 125.99
+      value: 94.8
       objectReference: {fileID: 0}
     - target: {fileID: 9147578930753449537, guid: 9e114947fdc9ed54bb7c2e174bf8df88,
         type: 3}
@@ -748,7 +756,7 @@ PrefabInstance:
     - target: {fileID: 9147578930753449537, guid: 9e114947fdc9ed54bb7c2e174bf8df88,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 69.51
+      value: 54.5
       objectReference: {fileID: 0}
     - target: {fileID: 9147578930753449537, guid: 9e114947fdc9ed54bb7c2e174bf8df88,
         type: 3}

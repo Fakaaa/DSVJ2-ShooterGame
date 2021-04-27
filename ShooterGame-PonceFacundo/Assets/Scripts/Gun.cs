@@ -7,7 +7,10 @@ public class Gun : MonoBehaviour
 {
     [SerializeField] private ParticleSystem prefabBulletImpact;
     [SerializeField] private ParticleSystem muzzleFlash;
+
     [SerializeField] private Text ammo;
+    [SerializeField] private Text typeShoot;
+
     [SerializeField] public Camera viewPlayer;
     [SerializeField] private float maxRange;
 
@@ -30,23 +33,24 @@ public class Gun : MonoBehaviour
 
     private float shootTimer;
     private bool alreadyShoot;
+    private bool selectionType;
     private void Start()
     {
         shootTimer = 0;
         alreadyShoot = false;
+        selectionType = false;
         actualMagazine = clipSize;
     }
 
     private void Update()
     {
-        ShowAmmo();
+        ShowGunUI();
         
         Shoot();
+        
+        ReloadGun();
 
-        if(Input.GetKeyDown(KeyCode.R))
-        {
-            ReloadGun();
-        }    
+        ChangeShootType();
     }
 
     public void CalcFireRate()
@@ -76,7 +80,6 @@ public class Gun : MonoBehaviour
 
         return myActualInput;
     }
-
     public void Shoot()
     {
         CalcFireRate();
@@ -116,12 +119,38 @@ public class Gun : MonoBehaviour
     }
     public void ReloadGun()
     {
-        reload.Play();
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            reload.Play();
 
-        actualMagazine = clipSize;
+            actualMagazine = clipSize;
+        }
     }
-    public void ShowAmmo()
+    public void ShowGunUI()
     {
         ammo.text = actualMagazine.ToString() + "/" + clipSize.ToString();
+
+        switch (myActualTypeShoot)
+        {
+            case TypeShoot.SingleShoot:
+                typeShoot.text = "FireMode - SingleShoot";
+                break;
+            case TypeShoot.Automatic:
+                typeShoot.text = "FireMode - Automatic";
+                break;
+        }
+    }
+
+    public void ChangeShootType()
+    {
+        if(Input.GetKeyDown(KeyCode.F))
+        {
+            selectionType = !selectionType;
+
+            if (!selectionType)
+                myActualTypeShoot = TypeShoot.Automatic;
+            else
+                myActualTypeShoot = TypeShoot.SingleShoot;
+        }
     }
 }
