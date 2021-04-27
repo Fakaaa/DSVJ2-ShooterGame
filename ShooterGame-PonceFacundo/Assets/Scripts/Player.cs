@@ -1,43 +1,36 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using System;
 
 public class Player : MonoBehaviour
 {
     public float hp;
-    public int points;
+    public static int points;
+    public static Action playerDead;
 
-    private static Player instance;
-
-    public static Player Get() { return instance; }
-
-    private void Awake()
-    {
-        if(instance != null)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        instance = this;
-        DontDestroyOnLoad(gameObject);
-    }
-
+    [SerializeField] public Text pointsText;
     public void SetPoints(int amount)
     {
         points += amount;
+        if (GameManager.Get() != null)
+            GameManager.Get().SetPointsPlayer(points);
     }
     public void ReciveDamage(float dmg)
     {
-        if (hp > 0)
-            hp -= dmg;
-        else
+        hp -= dmg;
+
+        if (hp <= 0)
+        {
             hp = 0;
+
+            if(playerDead != null)
+                playerDead();
+        }
     }
-    public bool CheckAlive()
+    private void Update()
     {
-        if (hp > 0)
-            return true;
-        else
-            return false;
+        pointsText.text = "Points: " + points;
     }
 }

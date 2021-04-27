@@ -1,18 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityStandardAssets.Characters.FirstPerson;
 using UnityEngine;
-using UnityEngine.Events;
-
 public class GameManager : MonoBehaviour
 {
     private static GameManager instance;
     public static GameManager Get() { return instance; }
 
-    [SerializeField] private UnityEvent endGame;
-
+    private int pointsPlayer;
     void Awake()
     {
-        if(instance != null)
+        if (instance != null)
         {
             Destroy(gameObject);
             return;
@@ -20,14 +18,23 @@ public class GameManager : MonoBehaviour
         instance = this;
         DontDestroyOnLoad(gameObject);
     }
-    void Update()
+    private void Start()
     {
-        if(Player.Get() != null)
-        {
-            if(!Player.Get().CheckAlive())
-            {
-                endGame?.Invoke();  //Gracias a theo y la ludom dare :3
-            }
-        }
+        Player.playerDead += EndGame;
     }
+    void EndGame()
+    {
+        Player.playerDead -= EndGame;
+        if (SceneLoader.Get() != null)
+            SceneLoader.Get().LoadScene("EndScene");
+    }
+    private void OnDisable()
+    {
+        Player.playerDead -= EndGame;
+    }
+    public void SetPointsPlayer(int points)
+    {
+        pointsPlayer = points;
+    }
+    public int GetPointsPlayer() { return pointsPlayer; }
 }

@@ -58,8 +58,8 @@ public class Gun : MonoBehaviour
                     
                     if(myHit.collider.tag == "Enemy")
                     {
-                        if (Player.Get() != null)
-                            Player.Get().SetPoints(100);
+                        if (FindObjectOfType<Player>() != null)
+                            FindObjectOfType<Player>().SetPoints(100);
                         myHit.rigidbody.AddExplosionForce(20, transform.position, 15, 4, ForceMode.Impulse);
                         myHit.collider.gameObject.GetComponent<Enemy>().CreateExplosion();
                     }

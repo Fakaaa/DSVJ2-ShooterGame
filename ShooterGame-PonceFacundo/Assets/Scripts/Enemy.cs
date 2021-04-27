@@ -10,6 +10,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] public ParticleSystem explosionEffec;
 
     [SerializeField] public bool explosiveBlow;
+    [SerializeField] public bool alive;
     [SerializeField] private float timeToBanish;
 
     [SerializeField] private Rigidbody myBody;
@@ -20,6 +21,8 @@ public class Enemy : MonoBehaviour
     {
         timer = 0;
         explosiveBlow = false;
+        alive = true;
+
         explosionSound = gameObject.GetComponent<AudioSource>();
         explosionEffectAux = null;
     }
@@ -40,8 +43,8 @@ public class Enemy : MonoBehaviour
         if(other.gameObject.tag == "Player")
         {
             CreateExplosion();
-            if(Player.Get() != null)
-                Player.Get().ReciveDamage(50);
+            if(FindObjectOfType<Player>() != null)
+                FindObjectOfType<Player>().ReciveDamage(50);
         }
     }
     public void CreateExplosion()
@@ -50,6 +53,7 @@ public class Enemy : MonoBehaviour
         myBody.AddExplosionForce(20, transform.position, 15, 4, ForceMode.Impulse);
         if (!explosionSound.isPlaying)
             explosionSound.Play();
+        alive = false;
         explosiveBlow = true;
     }
 }
