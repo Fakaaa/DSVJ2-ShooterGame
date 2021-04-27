@@ -411,6 +411,16 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -2.01
       objectReference: {fileID: 0}
+    - target: {fileID: 6210843100932402785, guid: 443bcb1803b31fc4e9ba45238fd4e262,
+        type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 2fa165746550f1f41a8b79312bad172c, type: 3}
+    - target: {fileID: 6210843100932402785, guid: 443bcb1803b31fc4e9ba45238fd4e262,
+        type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8157623232962229645, guid: 443bcb1803b31fc4e9ba45238fd4e262,
         type: 3}
       propertyPath: crossAir
