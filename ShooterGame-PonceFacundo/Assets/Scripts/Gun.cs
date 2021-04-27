@@ -16,11 +16,12 @@ public class Gun : MonoBehaviour
     public int maxAmmoToCarry;
     private Ray myRayDestiny;
 
-    private AudioSource revolverShoot;
+    [SerializeField]private AudioSource revolverShoot;
+    [SerializeField]private AudioSource reload;
+
     private void Start()
     {
         actualMagazine = clipSize;
-        revolverShoot = gameObject.GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -37,7 +38,7 @@ public class Gun : MonoBehaviour
 
     public void Shoot()
     {
-        if (actualMagazine > 0 && !revolverShoot.isPlaying)
+        if (actualMagazine > 0)
         {
             Vector3 mousePos = Input.mousePosition;
             myRayDestiny = viewPlayer.ScreenPointToRay(mousePos);
@@ -45,9 +46,8 @@ public class Gun : MonoBehaviour
 
             if (Input.GetButtonDown("Fire1"))
             {
-                if(!revolverShoot.isPlaying)
-                    revolverShoot.Play();
-                
+                revolverShoot.Play();
+
                 muzzleFlash.Play();
 
                 RaycastHit myHit; 
@@ -71,9 +71,10 @@ public class Gun : MonoBehaviour
     }
     public void ReloadGun()
     {
+        reload.Play();
+
         actualMagazine = clipSize;
     }
-
     public void ShowAmmo()
     {
         ammo.text = actualMagazine.ToString() + "/" + clipSize.ToString();

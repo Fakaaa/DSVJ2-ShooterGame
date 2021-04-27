@@ -8,8 +8,9 @@ OcclusionCullingSettings:
     smallestOccluder: 5
     smallestHole: 0.25
     backfaceThreshold: 100
-  m_SceneGUID: 00000000000000000000000000000000
-  m_OcclusionCullingData: {fileID: 0}
+  m_SceneGUID: 468f86b8d1698104d896d12f712675b7
+  m_OcclusionCullingData: {fileID: 36300000, guid: 2d7f558bd0d418244a84a8eb45e0b343,
+    type: 2}
 --- !u!104 &2
 RenderSettings:
   m_ObjectHideFlags: 0
@@ -143,6 +144,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -2.01
       objectReference: {fileID: 0}
+    - target: {fileID: 4502183748197207155, guid: 443bcb1803b31fc4e9ba45238fd4e262,
+        type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6210843100932402785, guid: 443bcb1803b31fc4e9ba45238fd4e262,
         type: 3}
       propertyPath: m_audioClip
@@ -205,9 +211,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8157623232962229645, guid: 443bcb1803b31fc4e9ba45238fd4e262,
         type: 3}
+      propertyPath: reload
+      value: 
+      objectReference: {fileID: 2068972219}
+    - target: {fileID: 8157623232962229645, guid: 443bcb1803b31fc4e9ba45238fd4e262,
+        type: 3}
       propertyPath: crossAir
       value: 
       objectReference: {fileID: 19922738}
+    - target: {fileID: 8157623232962229645, guid: 443bcb1803b31fc4e9ba45238fd4e262,
+        type: 3}
+      propertyPath: revolverShoot
+      value: 
+      objectReference: {fileID: 2068972220}
     - target: {fileID: 8378712324704590221, guid: 443bcb1803b31fc4e9ba45238fd4e262,
         type: 3}
       propertyPath: pointsText
@@ -674,6 +690,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 230cdd2f6a5437147974503f6efceb73, type: 3}
+--- !u!82 &2068972219 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 4502183748197207155, guid: 443bcb1803b31fc4e9ba45238fd4e262,
+    type: 3}
+  m_PrefabInstance: {fileID: 19922737}
+  m_PrefabAsset: {fileID: 0}
+--- !u!82 &2068972220 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 6210843100932402785, guid: 443bcb1803b31fc4e9ba45238fd4e262,
+    type: 3}
+  m_PrefabInstance: {fileID: 19922737}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2081646139
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -695,12 +723,12 @@ PrefabInstance:
     - target: {fileID: 3433072437732519950, guid: 9e114947fdc9ed54bb7c2e174bf8df88,
         type: 3}
       propertyPath: timeForRespawnBoxes
-      value: 20
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 3433072437732519950, guid: 9e114947fdc9ed54bb7c2e174bf8df88,
         type: 3}
       propertyPath: timeForRespawnEnemies
-      value: 10
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 9147578930753449537, guid: 9e114947fdc9ed54bb7c2e174bf8df88,
         type: 3}

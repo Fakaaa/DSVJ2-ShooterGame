@@ -131,7 +131,7 @@ MonoBehaviour:
     type: 3}
   explosiveBlow: 0
   alive: 0
-  timeToBanish: 1
+  timeToBanish: 2
   myBody: {fileID: 1792114300739204273}
 --- !u!82 &4881162367165251641
 AudioSource:

@@ -43,9 +43,8 @@ public class SpawnerManager : MonoBehaviour
         if (actualTime >= timeToSpawn)   
         {
             actualTime = 0;
-            if (!respawnSound.isPlaying)
-                respawnSound.Play();
-            randomPosition = new Vector3(Random.Range(minDistanceX, maxDistanceX), 0, Random.Range(minDistanceZ, maxDistanceZ));
+            respawnSound.Play();
+            randomPosition = new Vector3(Random.Range(minDistanceX, maxDistanceX), objectToSpawn.transform.position.y, Random.Range(minDistanceZ, maxDistanceZ));
             Instantiate(objectToSpawn, randomPosition, Quaternion.identity);
         }
     }

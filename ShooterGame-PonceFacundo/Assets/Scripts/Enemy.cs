@@ -51,8 +51,7 @@ public class Enemy : MonoBehaviour
     {
         explosionEffectAux = Instantiate(explosionEffec, gameObject.transform.position, Quaternion.identity);
         myBody.AddExplosionForce(20, transform.position, 15, 4, ForceMode.Impulse);
-        if (!explosionSound.isPlaying)
-            explosionSound.Play();
+        explosionSound.Play();
         alive = false;
         explosiveBlow = true;
     }
