@@ -40,6 +40,8 @@ public class Enemy : MonoBehaviour
         if(other.gameObject.tag == "Player")
         {
             CreateExplosion();
+            if(Player.Get() != null)
+                Player.Get().ReciveDamage(50);
         }
     }
     public void CreateExplosion()
