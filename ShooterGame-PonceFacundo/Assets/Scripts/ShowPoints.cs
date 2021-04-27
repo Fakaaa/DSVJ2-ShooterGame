@@ -8,7 +8,10 @@ public class ShowPoints : MonoBehaviour
     [SerializeField] public Text pointsPlayer;
     void Start()
     {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
         if (GameManager.Get() != null)
-            pointsPlayer.text = "¡You Die! \n Points: " + GameManager.Get().GetPointsPlayer().ToString();
+            pointsPlayer.text = "¡You Die! \n Points: " + GameManager.Get().GetPointsPlayer();
     }
 }

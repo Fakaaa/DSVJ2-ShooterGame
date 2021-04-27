@@ -281,7 +281,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1810301043}
+      - m_Target: {fileID: 5950094465759731391, guid: 6754e2a99d225af43b7c395111c23b44,
+          type: 3}
         m_MethodName: LoadScene
         m_Mode: 5
         m_Arguments:
@@ -411,7 +412,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1810301043}
+      - m_Target: {fileID: 5950094465759731391, guid: 6754e2a99d225af43b7c395111c23b44,
+          type: 3}
         m_MethodName: ExitGame
         m_Mode: 1
         m_Arguments:

@@ -108,6 +108,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pointsGived: 200
+  takeBox: {fileID: 8401272947123527543}
 --- !u!82 &8401272947123527543
 AudioSource:
   m_ObjectHideFlags: 0

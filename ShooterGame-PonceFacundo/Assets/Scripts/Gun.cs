@@ -19,8 +19,21 @@ public class Gun : MonoBehaviour
     [SerializeField]private AudioSource revolverShoot;
     [SerializeField]private AudioSource reload;
 
+    [SerializeField] public float fireRate;
+
+    public enum TypeShoot
+    {
+        SingleShoot,
+        Automatic
+    }
+    [SerializeField] public TypeShoot myActualTypeShoot;
+
+    private float shootTimer;
+    private bool alreadyShoot;
     private void Start()
     {
+        shootTimer = 0;
+        alreadyShoot = false;
         actualMagazine = clipSize;
     }
 
@@ -36,16 +49,48 @@ public class Gun : MonoBehaviour
         }    
     }
 
+    public void CalcFireRate()
+    {
+        if(shootTimer < fireRate && alreadyShoot)
+            shootTimer += Time.deltaTime;
+        if (shootTimer >= fireRate)
+        {
+            shootTimer = 0;
+            alreadyShoot = false;
+        }
+    }
+
+    public bool GetTypeShoot()
+    {
+        bool myActualInput = false;
+
+        switch (myActualTypeShoot)
+        {
+            case TypeShoot.SingleShoot:
+                myActualInput = Input.GetButtonDown("Fire1");
+                break;
+            case TypeShoot.Automatic:
+                myActualInput = Input.GetButton("Fire1");
+                break;
+        }
+
+        return myActualInput;
+    }
+
     public void Shoot()
     {
-        if (actualMagazine > 0)
+        CalcFireRate();
+
+        if (actualMagazine > 0 && !alreadyShoot)
         {
             Vector3 mousePos = Input.mousePosition;
             myRayDestiny = viewPlayer.ScreenPointToRay(mousePos);
             Debug.DrawRay(myRayDestiny.origin, myRayDestiny.direction * maxRange, Color.red);
 
-            if (Input.GetButtonDown("Fire1"))
+            if (GetTypeShoot())
             {
+                alreadyShoot = true;
+
                 revolverShoot.Play();
 
                 muzzleFlash.Play();

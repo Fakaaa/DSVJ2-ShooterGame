@@ -11,6 +11,14 @@ public class Player : MonoBehaviour
     public static Action playerDead;
 
     [SerializeField] public Text pointsText;
+
+    public void Start()
+    {
+        hp = 100;
+        points = 0;
+        if (GameManager.Get() != null)
+            GameManager.Get().SetPointsPlayer(points);
+    }
     public void SetPoints(int amount)
     {
         points += amount;
@@ -24,7 +32,7 @@ public class Player : MonoBehaviour
         if (hp <= 0)
         {
             hp = 0;
-
+            
             if(playerDead != null)
                 playerDead();
         }
