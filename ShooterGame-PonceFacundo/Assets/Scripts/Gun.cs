@@ -5,6 +5,7 @@ using UnityEngine;
 public class Gun : MonoBehaviour
 {
     [SerializeField] public List<GameObject> bulletsShooted;
+    [SerializeField] private Transform gunPosition; 
     [SerializeField] private GameObject prefabBullet;
     [SerializeField] public Camera viewPlayer;
     [SerializeField] private float maxRange;
@@ -29,15 +30,16 @@ public class Gun : MonoBehaviour
         if (actualMagazine > 0)
         {
             Vector3 mousePos = Input.mousePosition;
-            Ray myRay = viewPlayer.ScreenPointToRay(mousePos);
-            Debug.DrawRay(myRay.origin, myRay.direction * maxRange, Color.red);
+            Vector3 myRayOrigin = gunPosition.position;
+            Ray myRayDestiny = viewPlayer.ScreenPointToRay(mousePos);
+            Debug.DrawRay(myRayOrigin, myRayDestiny.direction * maxRange, Color.red);
 
             if (Input.GetButtonDown("Fire1"))
             {
                 RaycastHit myHit; 
-                if(Physics.Raycast(myRay.origin, myRay.direction * maxRange, out myHit))
+                if(Physics.Raycast(myRayOrigin, myRayDestiny.direction * maxRange, out myHit))
                 {
-                    //bulletsShooted.Add();
+                    bulletsShooted.Add(Instantiate(prefabBullet, gunPosition.position, Quaternion.identity, gunPosition));
                     actualMagazine--;
                 }
             }
