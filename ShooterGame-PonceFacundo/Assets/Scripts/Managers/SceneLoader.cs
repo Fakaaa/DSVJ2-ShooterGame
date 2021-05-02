@@ -10,7 +10,6 @@ public class SceneLoader : MonoBehaviour
     {
         return instance;
     }
-
     void Awake()
     {
         if(instance != null)

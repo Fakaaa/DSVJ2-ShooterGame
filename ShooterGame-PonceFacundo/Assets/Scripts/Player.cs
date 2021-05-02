@@ -42,7 +42,6 @@ public class Player : MonoBehaviour
     {
         ShowPlayerUI();
     }
-
     public void ShowPlayerUI()
     {
         pointsText.text = "Points: " + points;

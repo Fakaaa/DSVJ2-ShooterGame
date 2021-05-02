@@ -14,6 +14,9 @@ public class Gun : MonoBehaviour
     [SerializeField] public Camera viewPlayer;
     [SerializeField] private float maxRange;
 
+    [SerializeField] float verticalRecoil;
+    [SerializeField] float horizontalRecoil;
+
     public int clipSize;
     public int actualMagazine;
     public int maxAmmoToCarry;
@@ -41,7 +44,6 @@ public class Gun : MonoBehaviour
         selectionType = false;
         actualMagazine = clipSize;
     }
-
     private void Update()
     {
         ShowGunUI();
@@ -52,7 +54,6 @@ public class Gun : MonoBehaviour
 
         ChangeShootType();
     }
-
     public void CalcFireRate()
     {
         if(shootTimer < fireRate && alreadyShoot)
@@ -63,7 +64,6 @@ public class Gun : MonoBehaviour
             alreadyShoot = false;
         }
     }
-
     public bool GetTypeShoot()
     {
         bool myActualInput = false;
@@ -87,14 +87,21 @@ public class Gun : MonoBehaviour
         if (actualMagazine > 0 && !alreadyShoot)
         {
             Vector3 mousePos = Input.mousePosition;
+            mousePos.x += horizontalRecoil;
+            mousePos.y += verticalRecoil;
             myRayDestiny = viewPlayer.ScreenPointToRay(mousePos);
             Debug.DrawRay(myRayDestiny.origin, myRayDestiny.direction * maxRange, Color.red);
+
+            horizontalRecoil = 0;
+            verticalRecoil = 0;
 
             if (GetTypeShoot())
             {
                 alreadyShoot = true;
 
                 revolverShoot.Play();
+
+                AddRecoil(Random.Range(-45, 45), Random.Range(-30,30));
 
                 muzzleFlash.Play();
 
@@ -140,7 +147,6 @@ public class Gun : MonoBehaviour
                 break;
         }
     }
-
     public void ChangeShootType()
     {
         if(Input.GetKeyDown(KeyCode.F))
@@ -152,5 +158,10 @@ public class Gun : MonoBehaviour
             else
                 myActualTypeShoot = TypeShoot.SingleShoot;
         }
+    }
+    public void AddRecoil(float horizontal, float vertical)
+    {
+        horizontalRecoil += horizontal;
+        verticalRecoil += vertical;
     }
 }
