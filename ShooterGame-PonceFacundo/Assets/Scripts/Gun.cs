@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityStandardAssets.Characters.FirstPerson;
 
 public class Gun : MonoBehaviour
 {
@@ -14,8 +15,9 @@ public class Gun : MonoBehaviour
     [SerializeField] public Camera viewPlayer;
     [SerializeField] private float maxRange;
 
-    [SerializeField] float verticalRecoil;
-    [SerializeField] float horizontalRecoil;
+    [SerializeField] public float verticalRecoil;
+    [SerializeField] public float horizontalRecoil;
+    [SerializeField] FirstPersonController player;
 
     public int clipSize;
     public int actualMagazine;
@@ -87,13 +89,8 @@ public class Gun : MonoBehaviour
         if (actualMagazine > 0 && !alreadyShoot)
         {
             Vector3 mousePos = Input.mousePosition;
-            mousePos.x += horizontalRecoil;
-            mousePos.y += verticalRecoil;
             myRayDestiny = viewPlayer.ScreenPointToRay(mousePos);
             Debug.DrawRay(myRayDestiny.origin, myRayDestiny.direction * maxRange, Color.red);
-
-            horizontalRecoil = 0;
-            verticalRecoil = 0;
 
             if (GetTypeShoot())
             {
@@ -101,7 +98,7 @@ public class Gun : MonoBehaviour
 
                 revolverShoot.Play();
 
-                AddRecoil(Random.Range(-45, 45), Random.Range(-30,30));
+                player.m_MouseLook.AddRecoil(horizontalRecoil, verticalRecoil);
 
                 muzzleFlash.Play();
 
@@ -158,10 +155,5 @@ public class Gun : MonoBehaviour
             else
                 myActualTypeShoot = TypeShoot.SingleShoot;
         }
-    }
-    public void AddRecoil(float horizontal, float vertical)
-    {
-        horizontalRecoil += horizontal;
-        verticalRecoil += vertical;
     }
 }

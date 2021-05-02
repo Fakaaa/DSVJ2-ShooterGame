@@ -102,8 +102,9 @@ MonoBehaviour:
   typeShoot: {fileID: 881809597974406737}
   viewPlayer: {fileID: 7009337248817531673}
   maxRange: 10
-  verticalRecoil: 0
-  horizontalRecoil: 0
+  verticalRecoil: 2
+  horizontalRecoil: 1
+  player: {fileID: 7009337248808025305}
   clipSize: 60
   actualMagazine: 90
   maxAmmoToCarry: 100
@@ -122,7 +123,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 2fa165746550f1f41a8b79312bad172c, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -218,7 +219,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 8300a22ce7175c34283b6a0ff64ce79b, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -1412,6 +1413,8 @@ MonoBehaviour:
   m_StickToGroundForce: 10
   m_GravityMultiplier: 2
   m_MouseLook:
+    verticalRecoil: 0
+    horizontalRecoil: 0
     XSensitivity: 2
     YSensitivity: 2
     clampVerticalRotation: 1
@@ -2091,7 +2094,7 @@ PrefabInstance:
     - target: {fileID: 198000012944515248, guid: 9defeac88977c0d448aa4541073ee9e4,
         type: 3}
       propertyPath: InitialModule.startSize.scalar
-      value: 5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 199000013307124530, guid: 9defeac88977c0d448aa4541073ee9e4,
         type: 3}

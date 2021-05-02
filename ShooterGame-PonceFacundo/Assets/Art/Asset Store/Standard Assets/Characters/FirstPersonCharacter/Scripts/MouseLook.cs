@@ -7,6 +7,9 @@ namespace UnityStandardAssets.Characters.FirstPerson
     [Serializable]
     public class MouseLook
     {
+        public float verticalRecoil;
+        public float horizontalRecoil;
+
         public float XSensitivity = 2f;
         public float YSensitivity = 2f;
         public bool clampVerticalRotation = true;
@@ -30,11 +33,15 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
         public void LookRotation(Transform character, Transform camera)
         {
-            float yRot = CrossPlatformInputManager.GetAxis("Mouse X") * XSensitivity;
-            float xRot = CrossPlatformInputManager.GetAxis("Mouse Y") * YSensitivity;
+            float yRot = horizontalRecoil + CrossPlatformInputManager.GetAxis("Mouse X") * XSensitivity;
+            float xRot = verticalRecoil + CrossPlatformInputManager.GetAxis("Mouse Y") * YSensitivity;
+            
+            horizontalRecoil = 0;
+            verticalRecoil = 0;
 
             m_CharacterTargetRot *= Quaternion.Euler (0f, yRot, 0f);
             m_CameraTargetRot *= Quaternion.Euler (-xRot, 0f, 0f);
+
 
             if(clampVerticalRotation)
                 m_CameraTargetRot = ClampRotationAroundXAxis (m_CameraTargetRot);
@@ -109,6 +116,12 @@ namespace UnityStandardAssets.Characters.FirstPerson
             q.x = Mathf.Tan (0.5f * Mathf.Deg2Rad * angleX);
 
             return q;
+        }
+
+        public void AddRecoil(float horRecoil, float vertRecoils)
+        {
+            horizontalRecoil += horRecoil;
+            verticalRecoil += vertRecoils;
         }
 
     }
