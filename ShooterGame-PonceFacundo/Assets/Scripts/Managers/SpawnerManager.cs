@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SpawnerManager : MonoBehaviour
 {
-    [SerializeField] public Enemy prefabEnemy;
+    [SerializeField] public Enemy prefabEnemyBomb;
     [SerializeField] public Box prefabBoxes;
     [SerializeField] public Terrain theTerrain;
 
@@ -35,7 +35,7 @@ public class SpawnerManager : MonoBehaviour
             timerEnemys += Time.deltaTime;
             timerBoxes += Time.deltaTime;
 
-            RespawnSomething(prefabEnemy.gameObject, ref timerEnemys, timeForRespawnEnemies);
+            RespawnSomething(prefabEnemyBomb.gameObject, ref timerEnemys, timeForRespawnEnemies);
             RespawnSomething(prefabBoxes.gameObject, ref timerBoxes, timeForRespawnBoxes);
         }
     }

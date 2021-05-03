@@ -491,6 +491,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPoints: {fileID: 667731582}
   hpText: {fileID: 1866673182}
+  ammoPlayer: {fileID: 651875755}
+  typeShootText: {fileID: 1576527963}
 --- !u!1 &856199614
 GameObject:
   m_ObjectHideFlags: 0
