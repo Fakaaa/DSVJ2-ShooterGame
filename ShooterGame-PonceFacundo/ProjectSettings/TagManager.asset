@@ -9,6 +9,7 @@ TagManager:
   - Enemy
   - Bomb
   - Ghost
+  - Explosion
   layers:
   - Default
   - TransparentFX

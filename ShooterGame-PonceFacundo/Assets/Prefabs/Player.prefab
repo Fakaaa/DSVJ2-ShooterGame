@@ -108,6 +108,7 @@ MonoBehaviour:
   revolverShoot: {fileID: 8067223766946328924}
   reload: {fileID: 5580392786713854519}
   fireRate: 0.1
+  DMG_PerBullet: 2
   myActualTypeShoot: 1
 --- !u!82 &8067223766946328924
 AudioSource:
@@ -1143,7 +1144,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: bdfb8aa5dc68ed44db62d5963d06de60, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

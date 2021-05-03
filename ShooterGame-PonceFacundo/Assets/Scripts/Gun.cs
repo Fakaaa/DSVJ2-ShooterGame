@@ -25,6 +25,8 @@ public class Gun : MonoBehaviour
     [SerializeField]private AudioSource reload;
 
     [SerializeField] public float fireRate;
+    [SerializeField][Range(0.2f, 3.0f)] public float DMG_PerBullet;
+
 
     public enum TypeShoot
     {
@@ -111,6 +113,10 @@ public class Gun : MonoBehaviour
                             FindObjectOfType<Player>().SetPoints(100);
                         myHit.rigidbody.AddExplosionForce(20, transform.position, 15, 4, ForceMode.Impulse);
                         myHit.collider.gameObject.GetComponent<EnemyFSM>().CreateExplosion();
+                    }
+                    if(myHit.collider.tag == "Ghost")
+                    {
+                        myHit.collider.gameObject.GetComponent<EnemyFSM>().DamageGhost(DMG_PerBullet);
                     }
 
                     actualMagazine--;

@@ -19,37 +19,54 @@ public class EnemyFSM : MonoBehaviour
     }
     public States myCurrentState;
 
-    [Header("EnemyType: -BOMB-")]
+    [Space(20)]
+    [Header(" BOMB ")]
+    [Space(10)]
 
-    [SerializeField][Tooltip("Only if type enemy is: BOMB")]
+    [SerializeField]
+    [Tooltip("Only if type enemy is: BOMB")]
     public float timeUntilExplode;
     private float timerToExplode = 0;
+    private ParticleSystem explosionEffectAux;
+    private bool playerEscapes;
     private float timerToBanish = 0;
     [SerializeField] public bool explosiveBlow;
     [SerializeField] public bool timeToExplode;
-    private bool playerEscapes;
     [SerializeField] private float timeToBanish;
     [SerializeField] public float radiusDetectPlayer;
     [SerializeField] public ParticleSystem prefabExplosionSfx;
-    private ParticleSystem explosionEffectAux;
+    [SerializeField] private Rigidbody myBody;
 
     [Space(20)]
 
-    [Header("EnemyType: -GHOST-")]
+    [Header(" GHOST ")]
+    [Space(10)]
 
     [SerializeField]
-    [Range(5,20)]
+    [Range(5, 20)]
     [Tooltip("Only if type enemy is: GHOST")]
     private float speedEnemy;
+    [SerializeField] [Range(0, 300)] public float hp_Ghost;
+    [SerializeField] public bool alive;
+    [SerializeField] private Vector3 posToMove;
+    [SerializeField] private float timeUntilMoveErractically;
+    private float maxDistanceX = 0;
+    private float minDistanceX = 0;
+    private float maxDistanceZ = 0;
+    private float minDistanceZ = 0;
+    private float timerMoveErra;
+    private bool randomPosCreated;
 
-    [Header(" Enemy Generic ")]
+    [Header(" ENEMY GENERIC ")]
 
     [SerializeField] private float damageEnemy;
     [SerializeField] public float pointsGived;
-    [SerializeField] private Rigidbody myBody;
     private AudioSource mySound;
     [SerializeField] private LayerMask player;
     private Player myRefPlayer;
+
+    [Header("OTHERS")]
+    [SerializeField] public Terrain theTerrain;
 
     public void Start()
     {
@@ -58,9 +75,14 @@ public class EnemyFSM : MonoBehaviour
         switch (myType)
         {
             case TypeEnemy.Ghost:
-                speedEnemy = 5;
-                damageEnemy = 20;
+                posToMove = transform.position;
+                maxDistanceX = 141;
+                minDistanceX = 50;
+                maxDistanceZ = 88;
+                minDistanceZ = 21;
                 pointsGived = 200;
+                randomPosCreated = false;
+                alive = true;
                 gameObject.tag = "Ghost";
                 break;
             case TypeEnemy.Bomb:
@@ -84,25 +106,51 @@ public class EnemyFSM : MonoBehaviour
         CheckBehaivourTypeEnemy(myCurrentState, myType);
     }
 
+    public void ApplyMoveErratically()
+    {
+        if (!randomPosCreated)
+        {
+            float randX = Random.Range(minDistanceX, maxDistanceX);
+            float randZ = Random.Range(minDistanceZ, maxDistanceZ);
+            posToMove = new Vector3(randX, 0, randZ);
+            posToMove.y = gameObject.transform.localScale.y + theTerrain.SampleHeight(posToMove);
+            randomPosCreated = true;
+        }
+
+        transform.position = Vector3.MoveTowards(transform.position, posToMove, speedEnemy * Time.deltaTime);
+
+        if (transform.position == posToMove)
+        {
+            timerMoveErra = 0;
+            randomPosCreated = false;
+        }
+    }
+
     public void ApplyBehaviourIdle(TypeEnemy whatType)
+    {
+        switch (whatType)
+        {
+            case TypeEnemy.Ghost:
+                if (timerMoveErra <= timeUntilMoveErractically)
+                    timerMoveErra += Time.deltaTime;
+                else if (timerMoveErra >= timeUntilMoveErractically)
+                {
+                    ApplyMoveErratically();
+                }
+                break;
+            case TypeEnemy.Bomb:
+                if (Physics.CheckSphere(transform.position, radiusDetectPlayer, player) && !timeToExplode)
+                    myCurrentState = States.Attack;
+                break;
+        }
+    }
+    public void ApplyBehaviourAttack(TypeEnemy whatType)
     {
         switch (whatType)
         {
             case TypeEnemy.Ghost:
                 break;
             case TypeEnemy.Bomb:
-                if (Physics.CheckSphere(transform.position, radiusDetectPlayer, player) && !timeToExplode)
-                        myCurrentState = States.Attack;
-                break;
-        }
-    }
-    public void ApplyBehaviourAttack(TypeEnemy whatType)
-    {
-        switch (whatType)   
-        {
-            case TypeEnemy.Ghost:
-                break;
-            case TypeEnemy.Bomb:              
                 if (Physics.CheckSphere(transform.position, radiusDetectPlayer, player))
                 {
                     timeToExplode = true;
@@ -126,15 +174,12 @@ public class EnemyFSM : MonoBehaviour
                 break;
         }
     }
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.DrawSphere(transform.position, radiusDetectPlayer);
-    }
     public void ApplyBehaviourGoBack(TypeEnemy whatType)
     {
         switch (whatType)
         {
             case TypeEnemy.Ghost:
+
                 break;
             case TypeEnemy.Bomb:
                 CleanBomb();
@@ -146,13 +191,13 @@ public class EnemyFSM : MonoBehaviour
         switch (whatState)
         {
             case States.Idle:
-                    ApplyBehaviourIdle(whatType);
+                ApplyBehaviourIdle(whatType);
                 break;
             case States.Attack:
-                    ApplyBehaviourAttack(whatType);
+                ApplyBehaviourAttack(whatType);
                 break;
             case States.GoBack:
-                    ApplyBehaviourGoBack(whatType);
+                ApplyBehaviourGoBack(whatType);
                 break;
         }
     }
@@ -180,6 +225,25 @@ public class EnemyFSM : MonoBehaviour
             explosionEffectAux.transform.parent = gameObject.transform;
             Destroy(gameObject);
             timerToBanish = 0;
+        }
+    }
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.DrawSphere(transform.position, radiusDetectPlayer);
+    }
+    public void DamageGhost(float dmg)
+    {
+        hp_Ghost -= dmg;
+
+        if (hp_Ghost <= 0)
+        {
+            hp_Ghost = 0;
+            alive = false;
+
+            if (FindObjectOfType<Player>() != null && !alive)
+                FindObjectOfType<Player>().SetPoints(200);
+
+            Destroy(gameObject);
         }
     }
 }
