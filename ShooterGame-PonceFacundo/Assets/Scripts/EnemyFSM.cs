@@ -49,9 +49,12 @@ public class EnemyFSM : MonoBehaviour
     [SerializeField] private Rigidbody myBody;
     private AudioSource mySound;
     [SerializeField] private LayerMask player;
+    private Player myRefPlayer;
 
     public void Start()
     {
+        myRefPlayer = FindObjectOfType<Player>();
+
         switch (myType)
         {
             case TypeEnemy.Ghost:
@@ -100,7 +103,7 @@ public class EnemyFSM : MonoBehaviour
             case TypeEnemy.Ghost:
                 break;
             case TypeEnemy.Bomb:              
-                if (Physics.CheckSphere(transform.position, radiusDetectPlayer, player) && !timeToExplode)
+                if (Physics.CheckSphere(transform.position, radiusDetectPlayer, player))
                 {
                     timeToExplode = true;
                     playerEscapes = false;
@@ -155,10 +158,8 @@ public class EnemyFSM : MonoBehaviour
     }
     public void AttackPlayer()
     {
-        if (FindObjectOfType<Player>() != null)
-            FindObjectOfType<Player>().ReciveDamage(damageEnemy);
-
-        Debug.Log("Entro bro");
+        if (myRefPlayer != null)
+            myRefPlayer.ReciveDamage(damageEnemy);
     }
     public void CreateExplosion()
     {

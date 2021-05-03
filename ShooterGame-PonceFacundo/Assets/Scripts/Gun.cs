@@ -105,12 +105,12 @@ public class Gun : MonoBehaviour
                 {
                     Instantiate(prefabBulletImpact, myHit.point, Quaternion.LookRotation(myHit.normal));
                     
-                    if(myHit.collider.tag == "Enemy")
+                    if(myHit.collider.tag == "Bomb")
                     {
                         if (FindObjectOfType<Player>() != null)
                             FindObjectOfType<Player>().SetPoints(100);
                         myHit.rigidbody.AddExplosionForce(20, transform.position, 15, 4, ForceMode.Impulse);
-                        myHit.collider.gameObject.GetComponent<Enemy>().CreateExplosion();
+                        myHit.collider.gameObject.GetComponent<EnemyFSM>().CreateExplosion();
                     }
 
                     actualMagazine--;
