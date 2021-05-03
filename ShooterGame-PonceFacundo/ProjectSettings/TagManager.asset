@@ -7,6 +7,8 @@ TagManager:
   - Shootable
   - Terrain
   - Enemy
+  - Bomb
+  - Ghost
   layers:
   - Default
   - TransparentFX
@@ -20,7 +22,7 @@ TagManager:
   - Ground
   - Postprocessing
   - Gun
-  - 
+  - Player
   - 
   - 
   - 

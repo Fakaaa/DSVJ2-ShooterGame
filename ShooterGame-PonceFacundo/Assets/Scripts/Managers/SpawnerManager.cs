@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SpawnerManager : MonoBehaviour
 {
-    [SerializeField] public Enemy prefabEnemyBomb;
+    [SerializeField] public EnemyFSM prefabEnemyBomb;
     [SerializeField] public Box prefabBoxes;
     [SerializeField] public Terrain theTerrain;
 
