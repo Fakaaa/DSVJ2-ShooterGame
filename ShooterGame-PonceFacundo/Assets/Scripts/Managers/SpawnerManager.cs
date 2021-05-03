@@ -6,6 +6,7 @@ public class SpawnerManager : MonoBehaviour
 {
     [SerializeField] public Enemy prefabEnemy;
     [SerializeField] public Box prefabBoxes;
+    [SerializeField] public Terrain theTerrain;
 
     [SerializeField] public float timeForRespawnEnemies;
     [SerializeField] public float timeForRespawnBoxes;
@@ -27,7 +28,7 @@ public class SpawnerManager : MonoBehaviour
         timerBoxes = 0;
         respawnSound = gameObject.GetComponent<AudioSource>();
     }
-    void Update()
+    void LateUpdate()
     {
         if(!deactivateSpawn)
         {
@@ -44,7 +45,14 @@ public class SpawnerManager : MonoBehaviour
         {
             actualTime = 0;
             respawnSound.Play();
-            randomPosition = new Vector3(Random.Range(minDistanceX, maxDistanceX), 6, Random.Range(minDistanceZ, maxDistanceZ));
+
+            int randPosX = Random.Range((int)minDistanceX, (int)maxDistanceX);
+            int randPosZ = Random.Range((int)minDistanceZ, (int)maxDistanceZ);
+
+            randomPosition = new Vector3(randPosX , 0, randPosZ);
+            randomPosition.y = objectToSpawn.gameObject.transform.localScale.y + theTerrain.SampleHeight(randomPosition);
+
+            Debug.Log("xd " + theTerrain.terrainData.GetHeight(randPosX, randPosZ));
             Instantiate(objectToSpawn, randomPosition, Quaternion.identity);
         }
     }

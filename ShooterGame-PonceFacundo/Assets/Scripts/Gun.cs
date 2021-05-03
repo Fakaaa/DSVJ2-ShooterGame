@@ -98,11 +98,11 @@ public class Gun : MonoBehaviour
 
                 revolverShoot.Play();
 
-                player.m_MouseLook.AddRecoil(horizontalRecoil, verticalRecoil);
+                player.m_MouseLook.AddRecoil(Random.Range(-horizontalRecoil, horizontalRecoil), verticalRecoil);
 
                 muzzleFlash.Play();
 
-                RaycastHit myHit; 
+                RaycastHit myHit;
                 
                 if(Physics.Raycast(myRayDestiny.origin, myRayDestiny.direction * maxRange, out myHit))
                 {

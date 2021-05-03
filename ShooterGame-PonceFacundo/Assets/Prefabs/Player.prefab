@@ -103,7 +103,7 @@ MonoBehaviour:
   viewPlayer: {fileID: 7009337248817531673}
   maxRange: 10
   verticalRecoil: 2
-  horizontalRecoil: 1
+  horizontalRecoil: 2
   player: {fileID: 7009337248808025305}
   clipSize: 60
   actualMagazine: 90
