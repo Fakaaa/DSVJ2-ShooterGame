@@ -52,7 +52,6 @@ public class SpawnerManager : MonoBehaviour
             randomPosition = new Vector3(randPosX , 0, randPosZ);
             randomPosition.y = objectToSpawn.gameObject.transform.localScale.y + theTerrain.SampleHeight(randomPosition);
 
-            Debug.Log("xd " + theTerrain.terrainData.GetHeight(randPosX, randPosZ));
             Instantiate(objectToSpawn, randomPosition, Quaternion.identity);
         }
     }

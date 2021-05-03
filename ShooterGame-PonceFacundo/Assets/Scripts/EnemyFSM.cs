@@ -46,10 +46,18 @@ public class EnemyFSM : MonoBehaviour
     [Range(5, 20)]
     [Tooltip("Only if type enemy is: GHOST")]
     private float speedEnemy;
-    [SerializeField] [Range(0, 300)] public float hp_Ghost;
+    [SerializeField] 
+    [Range(0, 300)] 
+    public float hp_Ghost;
     [SerializeField] public bool alive;
     [SerializeField] private Vector3 posToMove;
     [SerializeField] private float timeUntilMoveErractically;
+    [SerializeField]
+    [Range(18,120)] 
+    private float minimumDistanceToChase;
+    private Vector3 myPos;
+    private Vector3 playerPos;
+
     private float maxDistanceX = 0;
     private float minDistanceX = 0;
     private float maxDistanceZ = 0;
@@ -76,6 +84,8 @@ public class EnemyFSM : MonoBehaviour
         {
             case TypeEnemy.Ghost:
                 posToMove = transform.position;
+                myPos = transform.position;
+                playerPos = myRefPlayer.transform.position;
                 maxDistanceX = 141;
                 minDistanceX = 50;
                 maxDistanceZ = 88;
@@ -103,6 +113,9 @@ public class EnemyFSM : MonoBehaviour
 
     public void Update()
     {
+        myPos = transform.position;
+        playerPos = myRefPlayer.transform.position;
+
         CheckBehaivourTypeEnemy(myCurrentState, myType);
     }
 
@@ -125,7 +138,17 @@ public class EnemyFSM : MonoBehaviour
             randomPosCreated = false;
         }
     }
+    public void CheckIfPlayerIsNear()
+    {
+        float myCalc = Mathf.Sqrt(Mathf.Pow((myPos.x - playerPos.x), 2) + Mathf.Pow((myPos.y - playerPos.y), 2));
 
+        Debug.Log("Resultado en distancia= " + myCalc);
+
+        if (myCalc <= minimumDistanceToChase)
+        {
+            myCurrentState = States.Attack;
+        }
+    }
     public void ApplyBehaviourIdle(TypeEnemy whatType)
     {
         switch (whatType)
@@ -137,6 +160,7 @@ public class EnemyFSM : MonoBehaviour
                 {
                     ApplyMoveErratically();
                 }
+                CheckIfPlayerIsNear();
                 break;
             case TypeEnemy.Bomb:
                 if (Physics.CheckSphere(transform.position, radiusDetectPlayer, player) && !timeToExplode)
