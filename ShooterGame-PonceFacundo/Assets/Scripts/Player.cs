@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 using System;
 
 public class Player : MonoBehaviour
@@ -10,8 +7,8 @@ public class Player : MonoBehaviour
     public static int points;
     public static Action playerDead;
 
-    [SerializeField] public Text pointsText;
-    [SerializeField] public Text hpText;
+    public delegate void HandleUI(float points, float hp);
+    public static HandleUI uiShow;
 
     public void Start()
     {
@@ -40,11 +37,10 @@ public class Player : MonoBehaviour
     }
     private void Update()
     {
-        ShowPlayerUI();
+        PassPlayerInfo();
     }
-    public void ShowPlayerUI()
+    public void PassPlayerInfo()
     {
-        pointsText.text = "Points: " + points;
-        hpText.text = "HP:" + hp;
+        uiShow?.Invoke(points, hp);
     }
 }

@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 using UnityStandardAssets.Characters.FirstPerson;
 
 public class Gun : MonoBehaviour
@@ -9,8 +6,8 @@ public class Gun : MonoBehaviour
     [SerializeField] private ParticleSystem prefabBulletImpact;
     [SerializeField] private ParticleSystem muzzleFlash;
 
-    [SerializeField] private Text ammo;
-    [SerializeField] private Text typeShoot;
+    public delegate void ShowUIGun(string ammo, int typeShoot);
+    public static ShowUIGun myUI;
 
     [SerializeField] public Camera viewPlayer;
     [SerializeField] private float maxRange;
@@ -48,7 +45,7 @@ public class Gun : MonoBehaviour
     }
     private void Update()
     {
-        ShowGunUI();
+        InvokeUI();
         
         Shoot();
         
@@ -130,19 +127,9 @@ public class Gun : MonoBehaviour
             actualMagazine = clipSize;
         }
     }
-    public void ShowGunUI()
+    public void InvokeUI()
     {
-        ammo.text = actualMagazine.ToString() + "/" + clipSize.ToString();
-
-        switch (myActualTypeShoot)
-        {
-            case TypeShoot.SingleShoot:
-                typeShoot.text = "FireMode - SingleShoot";
-                break;
-            case TypeShoot.Automatic:
-                typeShoot.text = "FireMode - Automatic";
-                break;
-        }
+        myUI?.Invoke((actualMagazine.ToString() + "/" + clipSize.ToString()), (int)myActualTypeShoot);
     }
     public void ChangeShootType()
     {
