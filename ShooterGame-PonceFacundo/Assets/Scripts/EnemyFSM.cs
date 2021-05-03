@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityStandardAssets.Characters.FirstPerson;
 
 public class EnemyFSM : MonoBehaviour
 {
@@ -56,7 +57,7 @@ public class EnemyFSM : MonoBehaviour
     [Range(18,120)] 
     private float minimumDistanceToChase;
     private Vector3 myPos;
-    private Vector3 playerPos;
+    [SerializeField] private FirstPersonController playerPos;
 
     private float maxDistanceX = 0;
     private float minDistanceX = 0;
@@ -64,6 +65,8 @@ public class EnemyFSM : MonoBehaviour
     private float minDistanceZ = 0;
     private float timerMoveErra;
     private bool randomPosCreated;
+    private bool lookedThePlayer;
+    private bool alreadyPlaceTheTarget;
 
     [Header(" ENEMY GENERIC ")]
 
@@ -71,27 +74,26 @@ public class EnemyFSM : MonoBehaviour
     [SerializeField] public float pointsGived;
     private AudioSource mySound;
     [SerializeField] private LayerMask player;
-    private Player myRefPlayer;
+    [SerializeField] private Player myRefPlayer;
 
     [Header("OTHERS")]
     [SerializeField] public Terrain theTerrain;
 
     public void Start()
     {
-        myRefPlayer = FindObjectOfType<Player>();
-
         switch (myType)
         {
             case TypeEnemy.Ghost:
                 posToMove = transform.position;
                 myPos = transform.position;
-                playerPos = myRefPlayer.transform.position;
                 maxDistanceX = 141;
                 minDistanceX = 50;
                 maxDistanceZ = 88;
                 minDistanceZ = 21;
                 pointsGived = 200;
                 randomPosCreated = false;
+                lookedThePlayer = false;
+                alreadyPlaceTheTarget = false;
                 alive = true;
                 gameObject.tag = "Ghost";
                 break;
@@ -113,10 +115,13 @@ public class EnemyFSM : MonoBehaviour
 
     public void Update()
     {
-        myPos = transform.position;
-        playerPos = myRefPlayer.transform.position;
-
         CheckBehaivourTypeEnemy(myCurrentState, myType);
+
+        if(myType == TypeEnemy.Ghost)
+        {
+            myPos = transform.position;
+            CheckIfPlayerIsNear();
+        }
     }
 
     public void ApplyMoveErratically()
@@ -140,13 +145,20 @@ public class EnemyFSM : MonoBehaviour
     }
     public void CheckIfPlayerIsNear()
     {
-        float myCalc = Mathf.Sqrt(Mathf.Pow((myPos.x - playerPos.x), 2) + Mathf.Pow((myPos.y - playerPos.y), 2));
+        float myCalc = Mathf.Sqrt(Mathf.Pow((myPos.x - playerPos.gameObject.transform.position.x), 2)
+            + Mathf.Pow((myPos.y - playerPos.gameObject.transform.position.y), 2));
 
         Debug.Log("Resultado en distancia= " + myCalc);
 
         if (myCalc <= minimumDistanceToChase)
         {
             myCurrentState = States.Attack;
+            lookedThePlayer = true;
+        }
+        else
+        {
+            myCurrentState = States.Idle;
+            lookedThePlayer = false;
         }
     }
     public void ApplyBehaviourIdle(TypeEnemy whatType)
@@ -160,7 +172,6 @@ public class EnemyFSM : MonoBehaviour
                 {
                     ApplyMoveErratically();
                 }
-                CheckIfPlayerIsNear();
                 break;
             case TypeEnemy.Bomb:
                 if (Physics.CheckSphere(transform.position, radiusDetectPlayer, player) && !timeToExplode)
@@ -173,6 +184,29 @@ public class EnemyFSM : MonoBehaviour
         switch (whatType)
         {
             case TypeEnemy.Ghost:
+
+                if(lookedThePlayer)
+                {
+                    if(!alreadyPlaceTheTarget)
+                    {
+                        float posX = playerPos.gameObject.transform.position.x - myRefPlayer.transform.localScale.x;
+                        float posZ = playerPos.gameObject.transform.position.z - myRefPlayer.transform.localScale.z;
+
+                        posToMove = new Vector3(posX, 0, posZ);
+                        posToMove.y = gameObject.transform.localScale.y + theTerrain.SampleHeight(posToMove);
+
+                        alreadyPlaceTheTarget = true;
+                    }
+                    transform.position = Vector3.MoveTowards(transform.position, posToMove, speedEnemy * Time.deltaTime);
+
+                    if (transform.position == posToMove)
+                    {
+                        alreadyPlaceTheTarget = false;
+                        randomPosCreated = false;
+                        lookedThePlayer = false;
+                    }
+                }
+
                 break;
             case TypeEnemy.Bomb:
                 if (Physics.CheckSphere(transform.position, radiusDetectPlayer, player))

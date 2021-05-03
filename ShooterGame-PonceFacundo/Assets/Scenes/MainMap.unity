@@ -215,6 +215,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!114 &381788411 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7980667086286592445, guid: 443bcb1803b31fc4e9ba45238fd4e262,
+    type: 3}
+  m_PrefabInstance: {fileID: 1911263581791862529}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 949992fae851d024c9ba7c07e2b2c9be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &651875753
 GameObject:
   m_ObjectHideFlags: 0
@@ -940,6 +952,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1866673180}
   m_CullTransparentMesh: 0
+--- !u!114 &2011982345 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7009337248808025305, guid: 443bcb1803b31fc4e9ba45238fd4e262,
+    type: 3}
+  m_PrefabInstance: {fileID: 1911263581791862529}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05ec5cf00ca181d45a42ba1870e148c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2081646139
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1319,9 +1343,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3027591778101524481, guid: 3bcf13bd1ee00f44cb8a5b71c8e79c5a,
         type: 3}
+      propertyPath: playerPos
+      value: 
+      objectReference: {fileID: 2011982345}
+    - target: {fileID: 3027591778101524481, guid: 3bcf13bd1ee00f44cb8a5b71c8e79c5a,
+        type: 3}
       propertyPath: theTerrain
       value: 
       objectReference: {fileID: 4181540087104105848}
+    - target: {fileID: 3027591778101524481, guid: 3bcf13bd1ee00f44cb8a5b71c8e79c5a,
+        type: 3}
+      propertyPath: myRefPlayer
+      value: 
+      objectReference: {fileID: 381788411}
     - target: {fileID: 3027591778101524481, guid: 3bcf13bd1ee00f44cb8a5b71c8e79c5a,
         type: 3}
       propertyPath: minimumDistanceToChase
