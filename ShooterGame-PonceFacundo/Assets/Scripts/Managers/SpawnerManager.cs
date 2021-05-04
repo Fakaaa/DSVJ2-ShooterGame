@@ -21,12 +21,31 @@ public class SpawnerManager : MonoBehaviour
     [SerializeField] public float maxDistanceZ;
     [SerializeField] public float minDistanceZ;
 
+    [SerializeField] 
+    [Tooltip("More than 35 and my pc explode xd")]
+    [Range(5, 35)]
+    public int maxGhostSpawned;
+    public int actualQuantityGhosts;
+    [SerializeField]
+    [Tooltip("More than 35 and my pc explode xd")]
+    [Range(5, 35)]
+    public int maxBombsSpawned;
+    public int actualQuantityBombs;
+    [SerializeField]
+    [Tooltip("More than 35 and my pc explode xd")]
+    [Range(5, 35)]
+    public int maxBoxesSpawned;
+    public int actualQuantityBoxes;
+
     private Vector3 randomPosition;
 
     private AudioSource respawnSound;
     [SerializeField] private bool deactivateSpawn;
     void Start()
     {
+        actualQuantityBoxes = 0;
+        actualQuantityBombs = 0;
+        actualQuantityGhosts = 0;
         timerEnemysBomb = 0;
         timerEnemysGhost = 0; 
         timerBoxes = 0;
@@ -40,25 +59,41 @@ public class SpawnerManager : MonoBehaviour
             timerEnemysBomb += Time.deltaTime;
             timerBoxes += Time.deltaTime;
 
-            RespawnSomething(prefabGhost.gameObject, ref timerEnemysGhost, timeForRespawnGhost);
-            RespawnSomething(prefabEnemyBomb.gameObject, ref timerEnemysBomb, timeForRespawnBombs);
-            RespawnSomething(prefabBoxes.gameObject, ref timerBoxes, timeForRespawnBoxes);
+            RespawnSomething(prefabGhost.gameObject, ref timerEnemysGhost, timeForRespawnGhost, ref actualQuantityGhosts, maxGhostSpawned);
+            RespawnSomething(prefabEnemyBomb.gameObject, ref timerEnemysBomb, timeForRespawnBombs, ref actualQuantityBombs, maxBombsSpawned);
+            RespawnSomething(prefabBoxes.gameObject, ref timerBoxes, timeForRespawnBoxes, ref actualQuantityBoxes, maxBoxesSpawned);
         }
     }
-    public void RespawnSomething(GameObject objectToSpawn, ref float actualTime, float timeToSpawn )
+    public void RespawnSomething(GameObject objectToSpawn, ref float actualTime, float timeToSpawn ,ref int actualNumber, int limitSpawn)
     {
         if (actualTime >= timeToSpawn)   
         {
             actualTime = 0;
-            respawnSound.Play();
 
             int randPosX = Random.Range((int)minDistanceX, (int)maxDistanceX);
             int randPosZ = Random.Range((int)minDistanceZ, (int)maxDistanceZ);
 
             randomPosition = new Vector3(randPosX , 0, randPosZ);
             randomPosition.y = objectToSpawn.gameObject.transform.localScale.y + theTerrain.SampleHeight(randomPosition);
-
-            Instantiate(objectToSpawn, randomPosition, Quaternion.identity);
+            
+            if(actualNumber < limitSpawn)
+            {
+                respawnSound.Play();
+                Instantiate(objectToSpawn, randomPosition, Quaternion.identity);
+                actualNumber++;
+            }
         }
+    }
+    public void DecreaseInstanceGhost()
+    {
+        actualQuantityGhosts -= 1;
+    }
+    public void DecreaseInstanceBomb()
+    {
+        actualQuantityBombs -= 1;
+    }
+    public void DecreaseInstanceBox()
+    {
+        actualQuantityBoxes -= 1;
     }
 }

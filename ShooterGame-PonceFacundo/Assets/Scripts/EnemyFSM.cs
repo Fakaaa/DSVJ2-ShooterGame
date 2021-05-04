@@ -70,7 +70,10 @@ public class EnemyFSM : MonoBehaviour
     private bool lookedThePlayer;
     private bool alreadyPlaceTheTarget;
 
+    [Space(20)]
+
     [Header(" ENEMY GENERIC ")]
+    [Space(10)]
 
     [SerializeField] private float damageEnemy;
     [SerializeField] public float pointsGived;
@@ -78,8 +81,10 @@ public class EnemyFSM : MonoBehaviour
     [SerializeField] private LayerMask player;
     [SerializeField] private Player myRefPlayer;
 
+    [Space(20)]
     [Header("OTHERS")]
     [SerializeField] public Terrain theTerrain;
+    [SerializeField] public SpawnerManager myRefToSpawner;
 
     public void Start()
     {
@@ -116,6 +121,7 @@ public class EnemyFSM : MonoBehaviour
                 gameObject.tag = "Bomb";
                 break;
         }
+        myRefToSpawner = FindObjectOfType<SpawnerManager>();
         mySound = gameObject.GetComponent<AudioSource>();
     }
 
@@ -290,6 +296,8 @@ public class EnemyFSM : MonoBehaviour
 
         if (timerToBanish >= timeToBanish)
         {
+            if (myRefToSpawner != null)
+                myRefToSpawner.DecreaseInstanceBomb();
             explosionEffectAux.transform.parent = gameObject.transform;
             Destroy(gameObject);
             timerToBanish = 0;
@@ -307,6 +315,9 @@ public class EnemyFSM : MonoBehaviour
         {
             hp_Ghost = 0;
             alive = false;
+
+            if (myRefToSpawner != null)
+                myRefToSpawner.DecreaseInstanceGhost();
 
             if (FindObjectOfType<Player>() != null && !alive)
                 FindObjectOfType<Player>().SetPoints(200);

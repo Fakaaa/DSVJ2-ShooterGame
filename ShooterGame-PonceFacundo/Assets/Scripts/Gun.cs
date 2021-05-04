@@ -33,8 +33,13 @@ public class Gun : MonoBehaviour
     [SerializeField]private AudioSource reload;
 
     [SerializeField] public float fireRate;
-    [SerializeField][Range(0.2f, 3.0f)] public float DMG_PerBullet;
+    [SerializeField][Range(0.2f, 10.0f)] public float DMG_PerBullet;
 
+    [SerializeField] public float forceBallThrow;
+    [SerializeField] public float upwardModifier;
+    [SerializeField] public float radiusExplosion;
+    [SerializeField] public BallAmmo prefabBallAmmo;
+    [SerializeField] public Transform cannonRocketBall;
 
     public enum TypeShoot
     {
@@ -95,41 +100,10 @@ public class Gun : MonoBehaviour
 
         if (actualMagazine > 0 && !alreadyShoot)
         {
-            Vector3 mousePos = Input.mousePosition;
-            myRayDestiny = viewPlayer.ScreenPointToRay(mousePos);
-            Debug.DrawRay(myRayDestiny.origin, myRayDestiny.direction * maxRange, Color.red);
-
-            if (GetTypeShoot())
-            {
-                alreadyShoot = true;
-
-                revolverShoot.Play();
-
-                player.m_MouseLook.AddRecoil(Random.Range(-horizontalRecoil, horizontalRecoil), verticalRecoil);
-
-                muzzleFlash.Play();
-
-                RaycastHit myHit;
-                
-                if(Physics.Raycast(myRayDestiny.origin, myRayDestiny.direction * maxRange, out myHit))
-                {
-                    Instantiate(prefabBulletImpact, myHit.point, Quaternion.LookRotation(myHit.normal));
-                    
-                    if(myHit.collider.tag == "Bomb")
-                    {
-                        if (FindObjectOfType<Player>() != null)
-                            FindObjectOfType<Player>().SetPoints(100);
-                        myHit.rigidbody.AddExplosionForce(20, transform.position, 15, 4, ForceMode.Impulse);
-                        myHit.collider.gameObject.GetComponent<EnemyFSM>().CreateExplosion();
-                    }
-                    if(myHit.collider.tag == "Ghost")
-                    {
-                        myHit.collider.gameObject.GetComponent<EnemyFSM>().DamageGhost(DMG_PerBullet);
-                    }
-
-                    actualMagazine--;
-                }
-            }
+            if (myType == TypeGun.Pistol)
+                PistolType();
+            else
+                BallCannon();
         }
     }
     public void ReloadGun()
@@ -155,6 +129,72 @@ public class Gun : MonoBehaviour
                 myActualTypeShoot = TypeShoot.Automatic;
             else
                 myActualTypeShoot = TypeShoot.SingleShoot;
+        }
+    }
+    public void PistolType()
+    {
+        Vector3 mousePos = Input.mousePosition;
+        myRayDestiny = viewPlayer.ScreenPointToRay(mousePos);
+        Debug.DrawRay(myRayDestiny.origin, myRayDestiny.direction * maxRange, Color.red);
+
+        if (GetTypeShoot())
+        {
+            alreadyShoot = true;
+
+            revolverShoot.Play();
+
+            player.m_MouseLook.AddRecoil(Random.Range(-horizontalRecoil, horizontalRecoil), verticalRecoil);
+
+            muzzleFlash.Play();
+
+            RaycastHit myHit;
+
+            if (Physics.Raycast(myRayDestiny.origin, myRayDestiny.direction * maxRange, out myHit))
+            {
+                Instantiate(prefabBulletImpact, myHit.point, Quaternion.LookRotation(myHit.normal));
+
+                if (myHit.collider.tag == "Bomb")
+                {
+                    if (FindObjectOfType<Player>() != null)
+                        FindObjectOfType<Player>().SetPoints(100);
+                    myHit.rigidbody.AddExplosionForce(20, transform.position, 15, 4, ForceMode.Impulse);
+                    myHit.collider.gameObject.GetComponent<EnemyFSM>().CreateExplosion();
+                }
+                if (myHit.collider.tag == "Ghost")
+                {
+                    myHit.collider.gameObject.GetComponent<EnemyFSM>().DamageGhost(DMG_PerBullet);
+                }
+
+                actualMagazine--;
+            }
+        }
+    }
+    public void BallCannon()
+    {
+        Vector3 mousePos = Input.mousePosition;
+        myRayDestiny = viewPlayer.ScreenPointToRay(mousePos);
+        Debug.DrawRay(myRayDestiny.origin, myRayDestiny.direction * maxRange, Color.magenta);
+
+        if(Input.GetButtonDown("Fire1"))
+        {
+            alreadyShoot = true;
+
+            revolverShoot.Play();
+
+            player.m_MouseLook.AddRecoil(Random.Range(-horizontalRecoil, horizontalRecoil), verticalRecoil);
+            
+            muzzleFlash.Play();
+
+            RaycastHit myHit;
+            if (Physics.Raycast(myRayDestiny.origin, myRayDestiny.direction * maxRange, out myHit))
+            {
+                BallAmmo go = Instantiate(prefabBallAmmo, cannonRocketBall.position, cannonRocketBall.rotation);
+                if (go != null)
+                    go.GetComponent<Rigidbody>().AddExplosionForce(forceBallThrow, 
+                        (cannonRocketBall.position - (player.transform.forward * 3)), radiusExplosion, upwardModifier, ForceMode.Impulse);
+
+                actualMagazine--;
+            }
         }
     }
 }

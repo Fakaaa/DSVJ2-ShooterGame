@@ -44,14 +44,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 730508be196c0ab4c9e9d47af5cf4f7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabEnemy: {fileID: 2919677623522209445, guid: fe314bc048af6374291e434b1921d1fe,
+  prefabEnemyBomb: {fileID: 8596934185702513692, guid: df8fb7cc2b25a9e4c8263ae372716551,
     type: 3}
-  amountEnemyPerSpawn: 0
-  timeForRespawnN: 10
-  maxDistanceX: 185
-  minDistanceX: 101
-  maxDistanceZ: 93
-  minDistanceZ: 41
+  prefabGhost: {fileID: 3027591778101524481, guid: 3bcf13bd1ee00f44cb8a5b71c8e79c5a,
+    type: 3}
+  prefabBoxes: {fileID: 4208571701128295198, guid: 3f1e6cb1e9c554249a2e2a7e3a586e33,
+    type: 3}
+  theTerrain: {fileID: 0}
+  timeForRespawnBombs: 10
+  timeForRespawnGhost: 5
+  timeForRespawnBoxes: 20
+  maxDistanceX: 141
+  minDistanceX: 50
+  maxDistanceZ: 88
+  minDistanceZ: 21
+  maxGhostSpawned: 15
+  actualQuantityGhosts: 0
+  maxBombsSpawned: 15
+  actualQuantityBombs: 0
+  maxBoxesSpawned: 15
+  actualQuantityBoxes: 0
   deactivateSpawn: 0
 --- !u!82 &221972099129484102
 AudioSource:

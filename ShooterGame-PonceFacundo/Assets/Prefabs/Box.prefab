@@ -112,6 +112,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pointsGived: 200
   takeBox: {fileID: 8401272947123527543}
+  myRefToSpawner: {fileID: 3433072437732519950, guid: 9e114947fdc9ed54bb7c2e174bf8df88,
+    type: 3}
 --- !u!82 &8401272947123527543
 AudioSource:
   m_ObjectHideFlags: 0

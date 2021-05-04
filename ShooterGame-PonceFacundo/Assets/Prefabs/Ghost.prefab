@@ -1966,6 +1966,8 @@ MonoBehaviour:
     type: 3}
   theTerrain: {fileID: 4181540085744291169, guid: 96fb1ba4be8ab4c4ab5da74d5743ea40,
     type: 3}
+  myRefToSpawner: {fileID: 3433072437732519950, guid: 9e114947fdc9ed54bb7c2e174bf8df88,
+    type: 3}
 --- !u!82 &5761074981661786062
 AudioSource:
   m_ObjectHideFlags: 0

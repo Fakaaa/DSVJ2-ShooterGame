@@ -10,6 +10,10 @@ public class Player : MonoBehaviour
     public delegate void HandleUI(float points, float hp);
     public static HandleUI uiShow;
 
+    [SerializeField] public Gun.TypeGun myCurrentGun;
+
+    [SerializeField] public Gun [] myGuns;
+
     public void Start()
     {
         hp = 100;
@@ -38,9 +42,41 @@ public class Player : MonoBehaviour
     private void Update()
     {
         PassPlayerInfo();
+
+        CheckGun();
     }
     public void PassPlayerInfo()
     {
         uiShow?.Invoke(points, hp);
+    }
+    public void ChooseGun()
+    {
+        if(Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            myCurrentGun = Gun.TypeGun.Pistol;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            myCurrentGun = Gun.TypeGun.BallGun;
+        }
+    }
+    public void CheckGun()
+    {
+        ChooseGun();
+
+        if (myGuns[0] != null && myGuns[1] != null)
+        {
+            switch (myCurrentGun)
+            {
+                case Gun.TypeGun.Pistol:
+                    myGuns[0].gameObject.SetActive(true);
+                    myGuns[1].gameObject.SetActive(false);
+                    break;
+                case Gun.TypeGun.BallGun:
+                    myGuns[1].gameObject.SetActive(true);
+                    myGuns[0].gameObject.SetActive(false);
+                    break;
+            }
+        }
     }
 }
