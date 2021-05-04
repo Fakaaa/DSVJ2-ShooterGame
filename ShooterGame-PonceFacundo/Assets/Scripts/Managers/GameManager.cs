@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Get() { return instance; }
 
     [SerializeField] private int pointsPlayer;
+    [SerializeField] private int highScorePlayer;
     void Awake()
     {
         if (instance != null)
@@ -21,9 +22,16 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         Player.playerDead += EndGame;
+        highScorePlayer = PlayerPrefs.GetInt("HighScore", 0);
     }
     void EndGame()
     {
+        if (highScorePlayer < pointsPlayer || highScorePlayer <= 0)
+            highScorePlayer = pointsPlayer;
+
+        PlayerPrefs.SetInt("HighScore", highScorePlayer);
+        PlayerPrefs.Save();
+
         if (SceneLoader.Get() != null)
             SceneLoader.Get().LoadScene("EndScene");
     }
@@ -36,4 +44,5 @@ public class GameManager : MonoBehaviour
         pointsPlayer = points;
     }
     public int GetPointsPlayer() { return pointsPlayer; }
+    public int GetHighScorePlayer() { return highScorePlayer; }
 }
