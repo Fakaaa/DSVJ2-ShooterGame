@@ -9,7 +9,7 @@ public class ShowPoints : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
-        if (GameManager.Get() != null)
+        if (GameManager.Get() != null && pointsPlayer != null)
             pointsPlayer.text = "¡You Die! \n Points: " + GameManager.Get().GetPointsPlayer();
     }
 }

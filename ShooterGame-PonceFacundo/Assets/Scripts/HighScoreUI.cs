@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class MainMenu : MonoBehaviour
+public class HighScoreUI : MonoBehaviour
 {
     [SerializeField] public GameObject panelScore;
     [SerializeField] public Text theHighscore;
+    [SerializeField] public Text lastScore;
     private bool isPanelActive;
 
     private void Start()
@@ -18,6 +19,9 @@ public class MainMenu : MonoBehaviour
     }
     private void Update()
     {
-        theHighscore.text = "Best score:  " + GameManager.Get().GetHighScorePlayer();
+        if (GameManager.Get() != null && theHighscore != null)
+            theHighscore.text = "Best score:  " + GameManager.Get().GetHighScorePlayer();
+        if(GameManager.Get() != null && lastScore != null)
+            lastScore.text = "Last score:  " + GameManager.Get().GetPointsPlayer();
     }
 }
