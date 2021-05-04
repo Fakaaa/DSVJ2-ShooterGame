@@ -3,6 +3,14 @@ using UnityStandardAssets.Characters.FirstPerson;
 
 public class Gun : MonoBehaviour
 {
+    [SerializeField]
+    public enum TypeGun
+    {
+        Pistol,
+        BallGun
+    }
+    public TypeGun myType;
+
     [SerializeField] private ParticleSystem prefabBulletImpact;
     [SerializeField] private ParticleSystem muzzleFlash;
 
