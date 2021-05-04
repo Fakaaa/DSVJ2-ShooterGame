@@ -133,13 +133,23 @@ MonoBehaviour:
   radiusDetectPlayer: 3
   prefabExplosionSfx: {fileID: 198917022394846920, guid: e1b08032bec16ba4eb1ae23cbd572664,
     type: 3}
+  myBody: {fileID: 6003150759624210628}
   speedEnemy: 5
+  hp_Ghost: 0
+  alive: 0
+  posToMove: {x: 0, y: 0, z: 0}
+  timeUntilMoveErractically: 0
+  minimumDistanceToChase: 0
+  playerPos: {fileID: 0}
   damageEnemy: 50
   pointsGived: 100
-  myBody: {fileID: 6003150759624210628}
   player:
     serializedVersion: 2
     m_Bits: 4096
+  myRefPlayer: {fileID: 7980667086286592445, guid: 443bcb1803b31fc4e9ba45238fd4e262,
+    type: 3}
+  theTerrain: {fileID: 4181540085744291169, guid: 96fb1ba4be8ab4c4ab5da74d5743ea40,
+    type: 3}
 --- !u!82 &589119390164880460
 AudioSource:
   m_ObjectHideFlags: 0

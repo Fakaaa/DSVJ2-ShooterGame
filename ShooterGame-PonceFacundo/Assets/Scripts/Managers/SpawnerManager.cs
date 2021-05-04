@@ -5,12 +5,15 @@ using UnityEngine;
 public class SpawnerManager : MonoBehaviour
 {
     [SerializeField] public EnemyFSM prefabEnemyBomb;
+    [SerializeField] public EnemyFSM prefabGhost;
     [SerializeField] public Box prefabBoxes;
     [SerializeField] public Terrain theTerrain;
 
-    [SerializeField] public float timeForRespawnEnemies;
+    [SerializeField] public float timeForRespawnBombs;
+    [SerializeField] public float timeForRespawnGhost;
     [SerializeField] public float timeForRespawnBoxes;
-    private float timerEnemys;
+    private float timerEnemysBomb;
+    private float timerEnemysGhost;
     private float timerBoxes;
 
     [SerializeField] public float maxDistanceX;
@@ -24,7 +27,8 @@ public class SpawnerManager : MonoBehaviour
     [SerializeField] private bool deactivateSpawn;
     void Start()
     {
-        timerEnemys = 0;
+        timerEnemysBomb = 0;
+        timerEnemysGhost = 0; 
         timerBoxes = 0;
         respawnSound = gameObject.GetComponent<AudioSource>();
     }
@@ -32,10 +36,12 @@ public class SpawnerManager : MonoBehaviour
     {
         if(!deactivateSpawn)
         {
-            timerEnemys += Time.deltaTime;
+            timerEnemysGhost += Time.deltaTime;
+            timerEnemysBomb += Time.deltaTime;
             timerBoxes += Time.deltaTime;
 
-            RespawnSomething(prefabEnemyBomb.gameObject, ref timerEnemys, timeForRespawnEnemies);
+            RespawnSomething(prefabGhost.gameObject, ref timerEnemysGhost, timeForRespawnGhost);
+            RespawnSomething(prefabEnemyBomb.gameObject, ref timerEnemysBomb, timeForRespawnBombs);
             RespawnSomething(prefabBoxes.gameObject, ref timerBoxes, timeForRespawnBoxes);
         }
     }

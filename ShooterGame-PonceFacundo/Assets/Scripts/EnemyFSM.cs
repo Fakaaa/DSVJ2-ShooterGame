@@ -51,13 +51,15 @@ public class EnemyFSM : MonoBehaviour
     [Range(0, 300)] 
     public float hp_Ghost;
     [SerializeField] public bool alive;
-    [SerializeField] private Vector3 posToMove;
     [SerializeField] private float timeUntilMoveErractically;
     [SerializeField]
     [Range(18,120)] 
     private float minimumDistanceToChase;
     private Vector3 myPos;
     [SerializeField] private FirstPersonController playerPos;
+    private Vector3 posToMoveErratically;
+    private Vector3 posToChaseAndAttack;
+
 
     private float maxDistanceX = 0;
     private float minDistanceX = 0;
@@ -84,8 +86,9 @@ public class EnemyFSM : MonoBehaviour
         switch (myType)
         {
             case TypeEnemy.Ghost:
-                posToMove = transform.position;
                 myPos = transform.position;
+                posToMoveErratically = Vector3.zero;
+                posToChaseAndAttack = Vector3.zero;
                 maxDistanceX = 141;
                 minDistanceX = 50;
                 maxDistanceZ = 88;
@@ -94,6 +97,8 @@ public class EnemyFSM : MonoBehaviour
                 randomPosCreated = false;
                 lookedThePlayer = false;
                 alreadyPlaceTheTarget = false;
+                playerPos = FindObjectOfType<FirstPersonController>();
+                myRefPlayer = FindObjectOfType<Player>();
                 alive = true;
                 gameObject.tag = "Ghost";
                 break;
@@ -103,6 +108,7 @@ public class EnemyFSM : MonoBehaviour
                 damageEnemy = 50;
                 timeToBanish = 2;
                 radiusDetectPlayer = 5;
+                myRefPlayer = FindObjectOfType<Player>();
                 explosiveBlow = false;
                 timeToExplode = false;
                 playerEscapes = false;
@@ -116,28 +122,24 @@ public class EnemyFSM : MonoBehaviour
     public void Update()
     {
         CheckBehaivourTypeEnemy(myCurrentState, myType);
-
-        if(myType == TypeEnemy.Ghost)
-        {
-            myPos = transform.position;
-            CheckIfPlayerIsNear();
-        }
+        myPos = transform.position;
+        CheckIfPlayerIsNear();
     }
-
     public void ApplyMoveErratically()
     {
         if (!randomPosCreated)
         {
             float randX = Random.Range(minDistanceX, maxDistanceX);
             float randZ = Random.Range(minDistanceZ, maxDistanceZ);
-            posToMove = new Vector3(randX, 0, randZ);
-            posToMove.y = gameObject.transform.localScale.y + theTerrain.SampleHeight(posToMove);
+            posToMoveErratically = new Vector3(randX, 0, randZ);
+            posToMoveErratically.y = gameObject.transform.localScale.y + theTerrain.SampleHeight(posToMoveErratically);
             randomPosCreated = true;
         }
 
-        transform.position = Vector3.MoveTowards(transform.position, posToMove, speedEnemy * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, posToMoveErratically, speedEnemy * Time.deltaTime);
+        transform.LookAt(posToMoveErratically, Vector3.up);
 
-        if (transform.position == posToMove)
+        if (transform.position == posToMoveErratically)
         {
             timerMoveErra = 0;
             randomPosCreated = false;
@@ -145,20 +147,23 @@ public class EnemyFSM : MonoBehaviour
     }
     public void CheckIfPlayerIsNear()
     {
-        float myCalc = Mathf.Sqrt(Mathf.Pow((myPos.x - playerPos.gameObject.transform.position.x), 2)
-            + Mathf.Pow((myPos.y - playerPos.gameObject.transform.position.y), 2));
-
-        Debug.Log("Resultado en distancia= " + myCalc);
-
-        if (myCalc <= minimumDistanceToChase)
+        if (myPos != null && playerPos != null)
         {
-            myCurrentState = States.Attack;
-            lookedThePlayer = true;
-        }
-        else
-        {
-            myCurrentState = States.Idle;
-            lookedThePlayer = false;
+            float myCalc = Mathf.Sqrt(Mathf.Pow((myPos.x - playerPos.gameObject.transform.position.x), 2)
+                + Mathf.Pow((myPos.y - playerPos.gameObject.transform.position.y), 2));
+
+            Debug.Log("Resultado en distancia= " + myCalc);
+
+            if (myCalc <= minimumDistanceToChase)
+            {
+                myCurrentState = States.Attack;
+                lookedThePlayer = true;
+            }
+            else
+            {
+                myCurrentState = States.Idle;
+                lookedThePlayer = false;
+            }
         }
     }
     public void ApplyBehaviourIdle(TypeEnemy whatType)
@@ -189,22 +194,27 @@ public class EnemyFSM : MonoBehaviour
                 {
                     if(!alreadyPlaceTheTarget)
                     {
-                        float posX = playerPos.gameObject.transform.position.x - myRefPlayer.transform.localScale.x;
-                        float posZ = playerPos.gameObject.transform.position.z - myRefPlayer.transform.localScale.z;
+                        float posX = playerPos.gameObject.transform.position.x - playerPos.gameObject.transform.localScale.x;
+                        float posZ = playerPos.gameObject.transform.position.z - playerPos.gameObject.transform.localScale.z;
 
-                        posToMove = new Vector3(posX, 0, posZ);
-                        posToMove.y = gameObject.transform.localScale.y + theTerrain.SampleHeight(posToMove);
+                        posToChaseAndAttack = new Vector3(posX, 0, posZ);
+                        posToChaseAndAttack.y = gameObject.transform.localScale.y + theTerrain.SampleHeight(posToChaseAndAttack);
 
                         alreadyPlaceTheTarget = true;
                     }
-                    transform.position = Vector3.MoveTowards(transform.position, posToMove, speedEnemy * Time.deltaTime);
 
-                    if (transform.position == posToMove)
+                    transform.position = Vector3.MoveTowards(transform.position, posToChaseAndAttack, speedEnemy * Time.deltaTime);
+                    transform.LookAt(posToChaseAndAttack, Vector3.up);
+
+                    if (transform.position == posToChaseAndAttack)
                     {
                         alreadyPlaceTheTarget = false;
-                        randomPosCreated = false;
                         lookedThePlayer = false;
                     }
+                }
+                else
+                {
+                    randomPosCreated = false;
                 }
 
                 break;
