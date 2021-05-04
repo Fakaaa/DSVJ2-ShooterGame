@@ -191,14 +191,21 @@ public class EnemyFSM : MonoBehaviour
 
                 if(lookedThePlayer)
                 {
-                    bool reachedPos;
 
-                    if (transform.position != posToChaseAndAttack)
-                        reachedPos = false;
-                    else
-                        reachedPos = true;
+                    if (transform.position == posToChaseAndAttack)
+                    {
+                        if(Vector3.Distance(transform.position, playerPos.transform.position) >= minimumDistanceToChase)
+                        {
+                            lookedThePlayer = false;
+                            myCurrentState = States.Idle;
+                        }
+                        else
+                        {
+                            alreadyPlaceTheTarget = false;
+                        }
+                    }
 
-                    if (!alreadyPlaceTheTarget || reachedPos)
+                    if (!alreadyPlaceTheTarget)
                     {
                         float posX = playerPos.gameObject.transform.position.x - playerPos.gameObject.transform.localScale.x;
                         float posZ = playerPos.gameObject.transform.position.z - playerPos.gameObject.transform.localScale.z;
