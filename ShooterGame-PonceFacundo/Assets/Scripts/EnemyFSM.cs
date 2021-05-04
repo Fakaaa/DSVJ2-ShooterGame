@@ -200,8 +200,8 @@ public class EnemyFSM : MonoBehaviour
                 {
                     if(!alreadyPlaceTheTarget)
                     {
-                        float posX = playerPos.gameObject.transform.position.x - playerPos.gameObject.transform.localScale.x;
-                        float posZ = playerPos.gameObject.transform.position.z - playerPos.gameObject.transform.localScale.z;
+                        float posX = playerPos.gameObject.transform.position.x - (playerPos.gameObject.transform.localScale.x * 0.5f);
+                        float posZ = playerPos.gameObject.transform.position.z - (playerPos.gameObject.transform.localScale.z * 0.5f);
 
                         posToChaseAndAttack = new Vector3(posX, 0, posZ);
                         posToChaseAndAttack.y = gameObject.transform.localScale.y + theTerrain.SampleHeight(posToChaseAndAttack);

@@ -24,7 +24,6 @@ public class GameManager : MonoBehaviour
     }
     void EndGame()
     {
-        Player.playerDead -= EndGame;
         if (SceneLoader.Get() != null)
             SceneLoader.Get().LoadScene("EndScene");
     }

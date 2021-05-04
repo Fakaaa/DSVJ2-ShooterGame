@@ -157,12 +157,15 @@ public class Gun : MonoBehaviour
                 {
                     if (FindObjectOfType<Player>() != null)
                         FindObjectOfType<Player>().SetPoints(100);
-                    myHit.rigidbody.AddExplosionForce(20, transform.position, 15, 4, ForceMode.Impulse);
-                    myHit.collider.gameObject.GetComponent<EnemyFSM>().CreateExplosion();
+                    if(myHit.rigidbody != null)
+                        myHit.rigidbody.AddExplosionForce(20, transform.position, 15, 4, ForceMode.Impulse);
+                    if(myHit.collider != null)
+                        myHit.collider.gameObject.GetComponent<EnemyFSM>().CreateExplosion();
                 }
                 if (myHit.collider.tag == "Ghost")
                 {
-                    myHit.collider.gameObject.GetComponent<EnemyFSM>().DamageGhost(DMG_PerBullet);
+                    if(myHit.collider != null)
+                        myHit.collider.gameObject.GetComponent<EnemyFSM>().DamageGhost(DMG_PerBullet);
                 }
 
                 actualMagazine--;
