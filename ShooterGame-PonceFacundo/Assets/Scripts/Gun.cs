@@ -194,7 +194,7 @@ public class Gun : MonoBehaviour
                 BallAmmo go = Instantiate(prefabBallAmmo, cannonRocketBall.position, cannonRocketBall.rotation);
                 if (go != null)
                     go.GetComponent<Rigidbody>().AddExplosionForce(forceBallThrow, 
-                        (cannonRocketBall.position - (player.transform.forward * 3)), radiusExplosion, upwardModifier, ForceMode.Impulse);
+                        (cannonRocketBall.position - (cannonRocketBall.transform.forward * 3)), radiusExplosion, upwardModifier, ForceMode.Impulse);
 
                 actualMagazine--;
             }

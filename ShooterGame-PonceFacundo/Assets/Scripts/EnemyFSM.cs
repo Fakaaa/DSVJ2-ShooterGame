@@ -55,7 +55,6 @@ public class EnemyFSM : MonoBehaviour
     [SerializeField]
     [Range(18,120)] 
     private float minimumDistanceToChase;
-    private Vector3 myPos;
     [SerializeField] private FirstPersonController playerPos;
     private Vector3 posToMoveErratically;
     private Vector3 posToChaseAndAttack;
@@ -91,7 +90,6 @@ public class EnemyFSM : MonoBehaviour
         switch (myType)
         {
             case TypeEnemy.Ghost:
-                myPos = transform.position;
                 posToMoveErratically = Vector3.zero;
                 posToChaseAndAttack = Vector3.zero;
                 maxDistanceX = 141;
@@ -128,7 +126,6 @@ public class EnemyFSM : MonoBehaviour
     public void Update()
     {
         CheckBehaivourTypeEnemy(myCurrentState, myType);
-        myPos = transform.position;
         CheckIfPlayerIsNear();
     }
     public void ApplyMoveErratically()
@@ -153,23 +150,19 @@ public class EnemyFSM : MonoBehaviour
     }
     public void CheckIfPlayerIsNear()
     {
-        if (myPos != null && playerPos != null)
+        float myCalc = Vector3.Distance(transform.position, playerPos.transform.position);
+
+        Debug.Log("Resultado en distancia= " + myCalc);
+
+        if (myCalc <= minimumDistanceToChase && myCurrentState != States.GoBack)
         {
-            float myCalc = Mathf.Sqrt(Mathf.Pow((myPos.x - playerPos.gameObject.transform.position.x), 2)
-                + Mathf.Pow((myPos.y - playerPos.gameObject.transform.position.y), 2));
-
-            Debug.Log("Resultado en distancia= " + myCalc);
-
-            if (myCalc <= minimumDistanceToChase)
-            {
-                myCurrentState = States.Attack;
-                lookedThePlayer = true;
-            }
-            else
-            {
-                myCurrentState = States.Idle;
-                lookedThePlayer = false;
-            }
+            myCurrentState = States.Attack;
+            lookedThePlayer = true;
+        }
+        else if(myCalc >= minimumDistanceToChase && myCurrentState == States.GoBack)
+        {
+            myCurrentState = States.Idle;
+            lookedThePlayer = false;
         }
     }
     public void ApplyBehaviourIdle(TypeEnemy whatType)
@@ -198,10 +191,17 @@ public class EnemyFSM : MonoBehaviour
 
                 if(lookedThePlayer)
                 {
-                    if(!alreadyPlaceTheTarget)
+                    bool reachedPos;
+
+                    if (transform.position != posToChaseAndAttack)
+                        reachedPos = false;
+                    else
+                        reachedPos = true;
+
+                    if (!alreadyPlaceTheTarget || reachedPos)
                     {
-                        float posX = playerPos.gameObject.transform.position.x - (playerPos.gameObject.transform.localScale.x * 0.5f);
-                        float posZ = playerPos.gameObject.transform.position.z - (playerPos.gameObject.transform.localScale.z * 0.5f);
+                        float posX = playerPos.gameObject.transform.position.x - playerPos.gameObject.transform.localScale.x;
+                        float posZ = playerPos.gameObject.transform.position.z - playerPos.gameObject.transform.localScale.z;
 
                         posToChaseAndAttack = new Vector3(posX, 0, posZ);
                         posToChaseAndAttack.y = gameObject.transform.localScale.y + theTerrain.SampleHeight(posToChaseAndAttack);
@@ -212,10 +212,13 @@ public class EnemyFSM : MonoBehaviour
                     transform.position = Vector3.MoveTowards(transform.position, posToChaseAndAttack, speedEnemy * Time.deltaTime);
                     transform.LookAt(posToChaseAndAttack, Vector3.up);
 
-                    if (transform.position == posToChaseAndAttack)
+                    Debug.Log("Distancia enemigo player = " + Vector3.Distance(transform.position, playerPos.transform.position));
+
+                    if (Vector3.Distance(transform.position, playerPos.transform.position) <= 1.5f)
                     {
                         alreadyPlaceTheTarget = false;
                         lookedThePlayer = false;
+                        myCurrentState = States.GoBack;
                     }
                 }
                 else
@@ -253,6 +256,9 @@ public class EnemyFSM : MonoBehaviour
         switch (whatType)
         {
             case TypeEnemy.Ghost:
+
+                Vector3 dir02 = transform.position - playerPos.transform.position;
+                transform.Translate(dir02.normalized * speedEnemy * Time.deltaTime, Space.World);
 
                 break;
             case TypeEnemy.Bomb:

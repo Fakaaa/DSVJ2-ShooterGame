@@ -23,17 +23,17 @@ public class SpawnerManager : MonoBehaviour
 
     [SerializeField] 
     [Tooltip("More than 35 and my pc explode xd")]
-    [Range(5, 35)]
+    [Range(0, 35)]
     public int maxGhostSpawned;
     public int actualQuantityGhosts;
     [SerializeField]
     [Tooltip("More than 35 and my pc explode xd")]
-    [Range(5, 35)]
+    [Range(0, 35)]
     public int maxBombsSpawned;
     public int actualQuantityBombs;
     [SerializeField]
     [Tooltip("More than 35 and my pc explode xd")]
-    [Range(5, 35)]
+    [Range(0, 35)]
     public int maxBoxesSpawned;
     public int actualQuantityBoxes;
 
