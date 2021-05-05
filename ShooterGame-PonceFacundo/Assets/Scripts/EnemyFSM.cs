@@ -150,19 +150,18 @@ public class EnemyFSM : MonoBehaviour
     }
     public void CheckIfPlayerIsNear()
     {
-        float myCalc = Vector3.Distance(transform.position, playerPos.transform.position);
-
-        Debug.Log("Resultado en distancia= " + myCalc);
-
-        if (myCalc <= minimumDistanceToChase && myCurrentState != States.GoBack)
+        if (playerPos != null)
         {
-            myCurrentState = States.Attack;
-            lookedThePlayer = true;
-        }
-        else if(myCalc >= minimumDistanceToChase && myCurrentState == States.GoBack)
-        {
-            myCurrentState = States.Idle;
-            lookedThePlayer = false;
+            if (Vector3.Distance(transform.position, playerPos.transform.position) <= minimumDistanceToChase && myCurrentState != States.GoBack)
+            {
+                myCurrentState = States.Attack;
+                lookedThePlayer = true;
+            }
+            else if(Vector3.Distance(transform.position, playerPos.transform.position) >= minimumDistanceToChase && myCurrentState == States.GoBack)
+            {
+                myCurrentState = States.Idle;
+                lookedThePlayer = false;
+            }
         }
     }
     public void ApplyBehaviourIdle(TypeEnemy whatType)

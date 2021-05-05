@@ -966,6 +966,11 @@ PrefabInstance:
       propertyPath: maxGhostSpawned
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 3433072437732519950, guid: 9e114947fdc9ed54bb7c2e174bf8df88,
+        type: 3}
+      propertyPath: timeForRespawnGhost
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 9147578930753449537, guid: 9e114947fdc9ed54bb7c2e174bf8df88,
         type: 3}
       propertyPath: m_RootOrder
