@@ -8,14 +8,14 @@ public class UI_Player : MonoBehaviour
     [SerializeField] private Text ammoPlayer;
     [SerializeField] private Text typeShootText;
 
-    void Start()
+    void Awake()
     {
-        Player.uiShow += ShowUIPlayer;
+        Player.updateData += ShowUIPlayer;
         Gun.myUI += ShowUIGun;
     }
     private void OnDisable()
     {
-        Player.uiShow -= ShowUIPlayer;
+        Player.updateData -= ShowUIPlayer;
         Gun.myUI -= ShowUIGun;
     }
     void ShowUIPlayer(float points, float hp)

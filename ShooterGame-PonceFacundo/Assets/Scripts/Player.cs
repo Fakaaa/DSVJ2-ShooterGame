@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
     public static Action playerDead;
 
     public delegate void HandleUI(float points, float hp);
-    public static HandleUI uiShow;
+    public static HandleUI updateData;
 
     [SerializeField] public Gun.TypeGun myCurrentGun;
 
@@ -18,12 +18,14 @@ public class Player : MonoBehaviour
     {
         hp = 100;
         points = 0;
+        PassPlayerInfo();
         if (GameManager.Get() != null)
             GameManager.Get().SetPointsPlayer(points);
     }
     public void SetPoints(int amount)
     {
         points += amount;
+        PassPlayerInfo();
         if (GameManager.Get() != null)
             GameManager.Get().SetPointsPlayer(points);
     }
@@ -34,20 +36,21 @@ public class Player : MonoBehaviour
         if (hp <= 0)
         {
             hp = 0;
-            
-            if(playerDead != null)
+            PassPlayerInfo();
+
+            if (playerDead != null)
                 playerDead();
         }
+        else
+            PassPlayerInfo();
     }
     private void Update()
     {
-        PassPlayerInfo();
-
         CheckGun();
     }
     public void PassPlayerInfo()
     {
-        uiShow?.Invoke(points, hp);
+        updateData?.Invoke(points, hp);
     }
     public void ChooseGun()
     {
