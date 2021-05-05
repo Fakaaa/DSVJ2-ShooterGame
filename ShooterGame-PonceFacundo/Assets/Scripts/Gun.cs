@@ -57,11 +57,10 @@ public class Gun : MonoBehaviour
         alreadyShoot = false;
         selectionType = false;
         actualMagazine = clipSize;
+        UpdateUI();
     }
     private void Update()
     {
-        InvokeUI();
-        
         Shoot();
         
         ReloadGun();
@@ -113,9 +112,11 @@ public class Gun : MonoBehaviour
             reload.Play();
 
             actualMagazine = clipSize;
+
+            UpdateUI();
         }
     }
-    public void InvokeUI()
+    public void UpdateUI()
     {
         myUI?.Invoke((actualMagazine.ToString() + "/" + clipSize.ToString()), (int)myActualTypeShoot);
     }
@@ -129,10 +130,14 @@ public class Gun : MonoBehaviour
                 myActualTypeShoot = TypeShoot.Automatic;
             else
                 myActualTypeShoot = TypeShoot.SingleShoot;
+
+            UpdateUI();
         }
     }
     public void PistolType()
     {
+        UpdateUI();
+
         Vector3 mousePos = Input.mousePosition;
         myRayDestiny = viewPlayer.ScreenPointToRay(mousePos);
         Debug.DrawRay(myRayDestiny.origin, myRayDestiny.direction * maxRange, Color.red);
@@ -170,10 +175,13 @@ public class Gun : MonoBehaviour
 
                 actualMagazine--;
             }
+            UpdateUI();
         }
     }
     public void BallCannon()
     {
+        UpdateUI();
+
         Vector3 mousePos = Input.mousePosition;
         myRayDestiny = viewPlayer.ScreenPointToRay(mousePos);
         Debug.DrawRay(myRayDestiny.origin, myRayDestiny.direction * maxRange, Color.magenta);
@@ -198,6 +206,7 @@ public class Gun : MonoBehaviour
 
                 actualMagazine--;
             }
+            UpdateUI();
         }
     }
 }
